@@ -25,6 +25,12 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.w900,
             color: Color(0xFF1e1d1c),
           ),
+          headline4: TextStyle(
+            fontSize: 35.0,
+            fontFamily: 'Dosis',
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF1e1d1c),
+          ),
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
