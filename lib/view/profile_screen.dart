@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:toggle_switch/toggle_switch.dart';
+
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({Key key}) : super(key: key);
 
@@ -12,7 +15,6 @@ class _ProfileScreen extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Color(0xFF69ade4),
       body: Column(
         children: [
           SizedBox(
@@ -47,40 +49,72 @@ class _ProfileScreen extends State<ProfileScreen> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Row(
-              children: [
-                Text(
-                  'Username',
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'John Doe',
-                      style: Theme.of(context).textTheme.headline5,
-                    ),
-                  ),
-                ),
-              ],
+          SizedBox(height: 20.0),
+          ListTile(
+            title: Text(
+              'Name',
+              style: Theme.of(context).textTheme.headline5,
+            ),
+            subtitle: Text(
+              'John Doe',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            trailing: IconButton(
+              icon: FaIcon(FontAwesomeIcons.solidEdit),
+              splashColor: Colors.transparent,
+              onPressed: () {},
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Row(
+          ListTile(
+            title: Text(
+              'Email',
+              style: Theme.of(context).textTheme.headline5,
+            ),
+            subtitle: Text(
+              'johndoe@email.com',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            trailing: IconButton(
+              icon: FaIcon(FontAwesomeIcons.solidEdit),
+              splashColor: Colors.transparent,
+              onPressed: () {},
+            ),
+          ),
+          ListTile(
+            title: Text(
+              'Password',
+              style: Theme.of(context).textTheme.headline5,
+            ),
+            trailing: IconButton(
+              icon: FaIcon(FontAwesomeIcons.solidEdit),
+              splashColor: Colors.transparent,
+              onPressed: () {},
+            ),
+          ),
+          ListTile(
+            title: Row(
               children: [
-                Text(
-                  'Email',
-                  style: Theme.of(context).textTheme.headline4,
-                ),
+                Text('Theme', style: Theme.of(context).textTheme.headline5),
                 Expanded(
                   child: Align(
                     alignment: Alignment.centerRight,
-                    child: Text(
-                      'johndoe@mail.com',
-                      style: Theme.of(context).textTheme.headline5,
+                    child: ToggleSwitch(
+                      minWidth: 90.0,
+                      minHeight: 50.0,
+                      cornerRadius: 100.0,
+                      fontSize: 16.0,
+                      iconSize: 20.0,
+                      initialLabelIndex: 0,
+                      icons: [
+                        FontAwesomeIcons.solidSun,
+                        FontAwesomeIcons.mobileAlt,
+                        FontAwesomeIcons.solidMoon,
+                      ],
+                      labels: ['Light', 'System', 'Dark'],
+                      activeBgColor: Color(0xFF69ade4),
+                      activeFgColor: Colors.black,
+                      inactiveBgColor: Colors.grey,
+                      inactiveFgColor: Colors.black,
                     ),
                   ),
                 ),
