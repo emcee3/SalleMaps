@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -96,33 +97,84 @@ class _ProfileScreen extends State<ProfileScreen> {
               title: Row(
                 children: [
                   Text('Theme', style: Theme.of(context).textTheme.headline5),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: ToggleSwitch(
-                        minWidth: 90.0,
-                        minHeight: 50.0,
-                        cornerRadius: 100.0,
-                        fontSize: 16.0,
-                        iconSize: 20.0,
-                        initialLabelIndex: 0,
-                        icons: [
-                          FontAwesomeIcons.solidSun,
-                          FontAwesomeIcons.mobileAlt,
-                          FontAwesomeIcons.solidMoon,
-                        ],
-                        labels: ['Light', 'System', 'Dark'],
-                        activeBgColor: Color(0xFF69ade4),
-                        activeFgColor: Colors.black,
-                        inactiveBgColor: Colors.grey,
-                        inactiveFgColor: Colors.black,
-                      ),
-                    ),
-                  ),
+                  themeListTile(),
                 ],
               ),
             ),
+            // ListTile(
+            //   title: Row(
+            //     children: [
+            //       Text('Theme', style: Theme.of(context).textTheme.headline5),
+            //       Expanded(
+            //         child: Align(
+            //           alignment: Alignment.centerRight,
+            //           child: ToggleSwitch(
+            //             minWidth: 90.0,
+            //             minHeight: 50.0,
+            //             cornerRadius: 100.0,
+            //             fontSize: 16.0,
+            //             iconSize: 20.0,
+            //             initialLabelIndex: 0,
+            //             icons: [
+            //               FontAwesomeIcons.solidSun,
+            //               FontAwesomeIcons.mobileAlt,
+            //               FontAwesomeIcons.solidMoon,
+            //             ],
+            //             labels: ['Light', 'System', 'Dark'],
+            //             activeBgColor: Color(0xFF69ade4),
+            //             activeFgColor: Colors.black,
+            //             inactiveBgColor: Colors.grey,
+            //             inactiveFgColor: Colors.black,
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
+        ),
+      ),
+    );
+  }
+
+  themeListTile() {
+    final Map<dynamic, Widget> options = Map.unmodifiable(
+      {
+        'system': Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.brightness_4),
+            SizedBox(width: 6),
+            Text('System'),
+          ],
+        ),
+        'Light': Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.brightness_low),
+            SizedBox(width: 6),
+            Text('Light'),
+          ],
+        ),
+        'Dark': Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.brightness_3),
+            SizedBox(width: 6),
+            Text('Dark'),
+          ],
+        ),
+      },
+    );
+
+    return Expanded(
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: CupertinoSlidingSegmentedControl(
+          groupValue: 'system',
+          children: options,
+          onValueChanged: (value) {},
+          thumbColor: Color(0xFF69ade4),
         ),
       ),
     );

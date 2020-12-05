@@ -80,6 +80,10 @@ class _RegisterScreen extends State<RegisterScreen> {
                       ),
                     ),
                     Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Text('Already have an account?'),
+                    ),
+                    Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: SizedBox(
                         width: double.infinity,
