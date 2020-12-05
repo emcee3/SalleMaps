@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "768698275812",
+    "project_id": "sallemaps-70731",
+    "storage_bucket": "sallemaps-70731.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:768698275812:android:1767b242b4b6498e93d9f1",
+        "android_client_info": {
+          "package_name": "edu.salle.salle_maps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "768698275812-6577djsg2etlai0b6m9qn7mo5fmtj8dd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.salle.salle_maps",
+            "certificate_hash": "9319fcc6b685bebe2f83120dab036a734a52d9e4"
+          }
+        },
+        {
+          "client_id": "768698275812-lhplj0vof92gb3vovd0peomngmdpqqpp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaUpnKxMm_t8nE7bDBSs9ozFtUSEN62jE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "768698275812-lhplj0vof92gb3vovd0peomngmdpqqpp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
