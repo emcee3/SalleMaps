@@ -13,3 +13,11 @@
 [//]: <> (Add images of every part of the app)
 
 [//]: <> (Name and explain every extra feature)
+
+## Pre-requisites
+
+In order to test the app you have to follow these steps:
+
+### Google Maps
+
+* Create an environment variable called `GOOGLE_MAPS_API_KEY` with your API key.
