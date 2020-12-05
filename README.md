@@ -20,4 +20,4 @@ In order to test the app you have to follow these steps:
 
 ### Google Maps
 
-* Create an environment variable called `GOOGLE_MAPS_API_KEY` with your API key.
+* Create an environment variable called `GOOGLE_MAPS_API_KEY` with your API key. *You may restart your computer.*

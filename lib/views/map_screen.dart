@@ -14,15 +14,14 @@ class _MapScreen extends State<MapScreen> {
   Completer<GoogleMapController> _controller = Completer();
 
   static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
+    target: LatLng(41.408746627104975, 2.130265356254578),
+    zoom: 20,
   );
 
   static final CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
+    target: LatLng(41.408746627104975, 2.130265356254578),
+    zoom: 18.5,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +35,8 @@ class _MapScreen extends State<MapScreen> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _goToTheLake,
-        label: Text('To the lake!'),
-        icon: Icon(Icons.directions_boat),
+        label: Text('To LaSalle!'),
+        icon: Icon(Icons.school),
       ),
     );
   }
