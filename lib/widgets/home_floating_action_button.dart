@@ -16,11 +16,3 @@ class HomeFloatingActionButton extends StatelessWidget {
     );
   }
 }
-
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: () {},
-//         tooltip: 'Add marker',
-//         child: Icon(Icons.add),
-//         elevation: 2.0,
-//         backgroundColor: Colors.orange,
-//       ),

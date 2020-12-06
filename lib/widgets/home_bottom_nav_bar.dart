@@ -1,7 +1,23 @@
 import 'package:flutter/material.dart';
 
-class HomeBottomNavBar extends StatelessWidget {
-  HomeBottomNavBar({Key key}) : super(key: key);
+class HomeBottomNavBar extends StatefulWidget {
+  final ValueChanged<int> onTabSelected;
+
+  HomeBottomNavBar({Key key, this.onTabSelected}) : super(key: key);
+
+  @override
+  _HomeBottomNavBar createState() => _HomeBottomNavBar();
+}
+
+class _HomeBottomNavBar extends State<HomeBottomNavBar> {
+  int _currentIndex = 0;
+
+  void _updateIndex(int index) {
+    widget.onTabSelected(index);
+    setState(() {
+      _currentIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +36,11 @@ class HomeBottomNavBar extends StatelessWidget {
                 child: Material(
                   type: MaterialType.transparency,
                   child: InkWell(
-                    onTap: () {
-                      print('BottomNavVar: Map');
-                    },
+                    onTap: () => _updateIndex(0),
                     child: Icon(
                       Icons.map,
                       size: 24.0,
+                      color: _currentIndex == 0 ? Colors.white : Colors.black,
                     ),
                   ),
                 ),
@@ -50,12 +65,11 @@ class HomeBottomNavBar extends StatelessWidget {
                 child: Material(
                   type: MaterialType.transparency,
                   child: InkWell(
-                    onTap: () {
-                      print('BottomNavVar: List');
-                    },
+                    onTap: () => _updateIndex(1),
                     child: Icon(
                       Icons.list,
                       size: 24.0,
+                      color: _currentIndex == 1 ? Colors.white : Colors.black,
                     ),
                   ),
                 ),
