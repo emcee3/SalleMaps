@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../views/map_screen.dart';
+import '../views/list_screen.dart';
 
 import '../widgets/home_bottom_nav_bar.dart';
 import '../widgets/home_floating_action_button.dart';
@@ -13,10 +14,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<Widget> _screens = [
-    MapScreen(),
-    Scaffold(body: Center(child: Text('This is not a list'))),
-  ];
+  final List<Widget> _screens = [MapScreen(), ListScreen()];
   int _currentTabIndex = 0;
 
   void _selectTabIndex(int index) {

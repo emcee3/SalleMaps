@@ -12,7 +12,10 @@ class _ListScreen extends State<ListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('This is not a list'),
+        child: Text(
+          'This is not a list',
+          style: Theme.of(context).textTheme.headline1,
+        ),
       ),
     );
   }

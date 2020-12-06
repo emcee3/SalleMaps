@@ -21,6 +21,10 @@ class _HomeBottomNavBar extends State<HomeBottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> _navigationButtons =
+        List.generate(2, (index) => _buildNavigationButton(index));
+    _navigationButtons.insert(1, _buildSeparator());
+
     return BottomAppBar(
       color: Color(0xFF69ade4),
       shape: CircularNotchedRectangle(),
@@ -29,53 +33,42 @@ class _HomeBottomNavBar extends State<HomeBottomNavBar> {
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Expanded(
-              child: SizedBox(
-                height: 60.0,
-                child: Material(
-                  type: MaterialType.transparency,
-                  child: InkWell(
-                    onTap: () => _updateIndex(0),
-                    child: Icon(
-                      Icons.map,
-                      size: 24.0,
-                      color: _currentIndex == 0 ? Colors.white : Colors.black,
-                    ),
-                  ),
-                ),
-              ),
+          children: _navigationButtons,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSeparator() {
+    return SizedBox(
+      height: 60.0,
+      width: 60.0,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 24.0,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNavigationButton(int index) {
+    return Expanded(
+      child: SizedBox(
+        height: 60.0,
+        child: Material(
+          type: MaterialType.transparency,
+          child: InkWell(
+            onTap: () => _updateIndex(index),
+            child: Icon(
+              index == 0 ? Icons.map : Icons.list,
+              size: 24.0,
+              color: _currentIndex == index ? Colors.white : Colors.black,
             ),
-            SizedBox(
-              height: 60.0,
-              width: 60.0,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 24.0,
-                  ),
-                ],
-              ),
-            ), // This is to separate the items from de FAB
-            Expanded(
-              child: SizedBox(
-                height: 60.0,
-                child: Material(
-                  type: MaterialType.transparency,
-                  child: InkWell(
-                    onTap: () => _updateIndex(1),
-                    child: Icon(
-                      Icons.list,
-                      size: 24.0,
-                      color: _currentIndex == 1 ? Colors.white : Colors.black,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
