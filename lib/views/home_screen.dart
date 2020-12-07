@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salle_maps/views/profile_screen.dart';
 
 import '../views/map_screen.dart';
 import '../views/list_screen.dart';
@@ -14,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<Widget> _screens = [MapScreen(), ListScreen()];
+  final List<Widget> _screens = [MapScreen(), ProfileScreen()];
   int _currentTabIndex = 0;
 
   void _selectTabIndex(int index) {

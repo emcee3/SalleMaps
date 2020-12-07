@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -73,7 +75,7 @@ class _ProfileScreen extends State<ProfileScreen> {
                 style: Theme.of(context).textTheme.headline5,
               ),
               subtitle: Text(
-                'johndoe@email.com',
+                FirebaseAuth.instance.currentUser.email,
                 style: Theme.of(context).textTheme.headline6,
               ),
               trailing: IconButton(
