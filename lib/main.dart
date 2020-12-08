@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salle_maps/services/services.dart';
 import 'package:salle_maps/views/login_screen.dart';
 import 'package:salle_maps/views/profile_screen.dart';
 import 'package:salle_maps/views/register_screen.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: Global.title,
       theme: ThemeData(
         fontFamily: 'Dosis',
         textTheme: TextTheme(
