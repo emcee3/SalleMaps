@@ -11,7 +11,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreen extends State<LoginScreen> {
-
   AuthService auth = AuthService();
 
   final _formKey = GlobalKey<FormState>();
@@ -23,24 +22,22 @@ class _LoginScreen extends State<LoginScreen> {
   void initState() {
     super.initState();
 
-    // FirebaseAuth.instance.authStateChanges().listen(
-    //   (User user) {
-    //     if (user == null) {
-    //       print('User is currently signed out!');
-    //     } else {
-    //       print('User is signed in!');
-    //       Navigator.pushReplacementNamed(context, '/home');
-    //     }
-    //   },
-    // );
-
-    if (FirebaseAuth.instance.currentUser == null) {
-      print('User is currently signed out!');
-    } else {
-      print('User is signed in!');
-      Navigator.pushReplacementNamed(context, '/home');
-    }
-
+    FirebaseAuth.instance.authStateChanges().listen(
+      (User user) {
+        if (user == null) {
+          print('User is currently signed out!');
+        } else {
+          print('User is signed in!');
+          Navigator.pushReplacementNamed(context, '/home');
+        }
+      },
+    );
+    // if (FirebaseAuth.instance.currentUser == null) {
+    //   print('User is currently signed out!');
+    // } else {
+    //   print('User is signed in!');
+    //   Navigator.pushReplacementNamed(context, '/home');
+    // }
   }
 
   @override
@@ -103,7 +100,7 @@ class _LoginScreen extends State<LoginScreen> {
                         Text('Forgot password?'),
                         GestureDetector(
                           child: Text('Don' 't have an account?'),
-                          onTap: () {
+                          onTap: ()  {
                             Navigator.pushNamed(context, '/register');
                           },
                         ),
@@ -122,9 +119,20 @@ class _LoginScreen extends State<LoginScreen> {
                         color: Colors.black26,
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
-                            UserCredential userCredential = await auth.signIn(_emailCntlr.text, _passCntlr.text);
-                            if (userCredential.user != null) {
-                              Navigator.pushReplacementNamed(context, '/home');
+                            UserCredential userCredential = await auth.signIn(
+                                _emailCntlr.text, _passCntlr.text);
+                            if (userCredential != null) {
+                              if (userCredential.user != null) {
+                                Navigator.pushReplacementNamed(
+                                    context, '/home');
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text("email / password incorrect"),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
                             }
                           }
                         },
@@ -135,12 +143,12 @@ class _LoginScreen extends State<LoginScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
-                                  padding: const EdgeInsets.only(left: 10.0),
-                                  child: Text(
-                                    'Login',
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
-                                  )),
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: Text(
+                                  'Login',
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -167,44 +175,12 @@ class _LoginScreen extends State<LoginScreen> {
                               Image.asset('assets/google_logo.png',
                                   height: 35.0),
                               Padding(
-                                  padding: const EdgeInsets.only(left: 10.0),
-                                  child: Text(
-                                    'Login with Google',
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
-                                  )),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: 55,
-                      child: FlatButton(
-                        splashColor: Colors.grey,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40)),
-                        color: Colors.white,
-                        onPressed: () {},
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset('assets/facebook_logo.png',
-                                  height: 35.0),
-                              Padding(
-                                  padding: const EdgeInsets.only(left: 10.0),
-                                  child: Text(
-                                    'Login with Facebook',
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
-                                  )),
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: Text(
+                                  'Login with Google',
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -220,3 +196,4 @@ class _LoginScreen extends State<LoginScreen> {
     );
   }
 }
+

@@ -1,27 +1,28 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:salle_maps/services/globals.dart';
 
 class AuthService {
-  //TODO: https://firebase.flutter.dev/docs/auth/usage
-
-  Future<bool> signUp(String email, String password) async {
+  Future<String> signUp(String email, String password) async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
       print("REGISTER SUCCESS!");
-      return true;
+      return Global.signUpSuccess;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
+        return Global.signUpErrorPassword;
       } else if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
+        return Global.signUpErrorEmail;
       }
     } catch (e) {
       print(e);
     }
-    return false;
+    return Global.signUpError;
   }
 
   Future<UserCredential> signIn(String email, String password) async {
@@ -43,6 +44,7 @@ class AuthService {
   }
 
 /*  /// Sign in with Google
+    //TODO: https://firebase.flutter.dev/docs/auth/social
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();

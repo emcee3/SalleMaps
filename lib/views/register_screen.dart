@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:salle_maps/services/auth.dart';
+import 'package:salle_maps/services/services.dart';
 
 class RegisterScreen extends StatefulWidget {
   RegisterScreen({Key key}) : super(key: key);
@@ -32,23 +32,6 @@ class _RegisterScreen extends State<RegisterScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('Sign Up', style: Theme.of(context).textTheme.headline1),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
-                    child: TextFormField(
-                      keyboardType: TextInputType.name,
-                      decoration: InputDecoration(
-                        hintText: 'Username',
-                        suffixIcon: Icon(Icons.person),
-                        border: const OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please, enter your name.';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0),
                     child: TextFormField(
@@ -119,24 +102,56 @@ class _RegisterScreen extends State<RegisterScreen> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40)),
                         color: Colors.black26,
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState.validate()) {
                             if (_passCntlr.text == _confirmPassCntlr.text) {
-                              void signUpResult() async {
-                                final res = await auth.signUp(_emailCntlr.text, _passCntlr.text);
-                                if (res) {
-                                  Navigator.pop(context);
-                                }
+                              final res = await auth.signUp(
+                                  _emailCntlr.text, _passCntlr.text);
+                              switch (res) {
+                                case Global.signUpSuccess:
+                                  {
+                                    Navigator.pop(context);
+                                  }
+                                  break;
+                                case Global.signUpErrorPassword:
+                                  {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("weak password"),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
+                                  }
+                                  break;
+                                case Global.signUpErrorEmail:
+                                  {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("email already in use"),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
+                                  }
+                                  break;
+                                case Global.signUpError:
+                                  {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("error signing up"),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
+                                  }
+                                  break;
                               }
-                              signUpResult();
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text("Error: passwords don't match"),
-                                  backgroundColor: Colors.red,
-                                ),
-                              );
                             }
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("passwords don't match"),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
                           }
                         },
                         child: Padding(
@@ -158,31 +173,10 @@ class _RegisterScreen extends State<RegisterScreen> {
     );
   }
 
-  String validatePassword(String value) {
-    // r'^
-    //   (?=.*[A-Z])       // should contain at least one upper case
-    //   (?=.*[a-z])       // should contain at least one lower case
-    //   (?=.*?[0-9])          // should contain at least one digit
-    //   (?=.*?[!@#\$&*~]).{8,}  // should contain at least one Special character
-    // $
-    Pattern pattern =
-        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
-    RegExp regex = new RegExp(pattern);
-    if (value.isEmpty) {
-      return 'Please enter password';
-    } else {
-      if (!regex.hasMatch(value))
-        return 'Enter valid password';
-      else
-        return null;
-    }
-  }
-
   String validateEmail(String value) {
     Pattern pattern =
         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
     RegExp regex = new RegExp(pattern);
-    print(value);
     if (value.isEmpty) {
       return 'Please enter email';
     } else {
