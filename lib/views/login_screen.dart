@@ -22,22 +22,9 @@ class _LoginScreen extends State<LoginScreen> {
   void initState() {
     super.initState();
 
-    FirebaseAuth.instance.authStateChanges().listen(
-      (User user) {
-        if (user == null) {
-          print('User is currently signed out!');
-        } else {
-          print('User is signed in!');
-          Navigator.pushReplacementNamed(context, '/home');
-        }
-      },
-    );
-    // if (FirebaseAuth.instance.currentUser == null) {
-    //   print('User is currently signed out!');
-    // } else {
-    //   print('User is signed in!');
-    //   Navigator.pushReplacementNamed(context, '/home');
-    // }
+    FirebaseAuth.instance.authStateChanges().listen((User user) {
+      if (user != null) Navigator.pushReplacementNamed(context, '/home');
+    });
   }
 
   @override
@@ -100,7 +87,7 @@ class _LoginScreen extends State<LoginScreen> {
                         Text('Forgot password?'),
                         GestureDetector(
                           child: Text('Don' 't have an account?'),
-                          onTap: ()  {
+                          onTap: () {
                             Navigator.pushNamed(context, '/register');
                           },
                         ),
@@ -196,4 +183,3 @@ class _LoginScreen extends State<LoginScreen> {
     );
   }
 }
-

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:salle_maps/services/services.dart';
 import 'package:salle_maps/views/login_screen.dart';
@@ -14,6 +15,8 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  final User user = FirebaseAuth.instance.currentUser;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -41,8 +44,9 @@ class MyApp extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      initialRoute: user == null ? '/login' : '/home',
       routes: {
-        '/': (context) => LoginScreen(),
+        '/login': (context) => LoginScreen(),
         '/register': (context) => RegisterScreen(),
         '/home': (context) => HomeScreen(),
         '/profile': (context) => ProfileScreen(),

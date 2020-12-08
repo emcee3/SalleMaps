@@ -83,9 +83,10 @@ class _ProfileScreen extends State<ProfileScreen> {
               color: Colors.red,
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();
-                Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil('/login', (route) => false);
               },
-            )
+            ),
           ],
         ),
       ),
