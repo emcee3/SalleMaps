@@ -24,6 +24,10 @@ dependencies:
 
   cupertino_icons: ^1.0.0
 
+  # Color picker
+  flutter_colorpicker: ^0.3.4
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

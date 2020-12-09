@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:salle_maps/services/globals.dart';
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({Key key}) : super(key: key);
@@ -12,80 +13,110 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreen extends State<ProfileScreen> {
+  Color _bgColor = Color(0xFF69ade4);
+
+  void changeColor(Color color) => setState(() => _bgColor = color);
+
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: SingleChildScrollView(
+      backgroundColor: const Color(0xffF5F5F6),
+      body: SafeArea(
         child: Column(
           children: [
             SizedBox(
-              height: 250,
+              height: 200,
               child: Stack(
                 children: [
-                  Positioned.fill(
-                    top: -50,
-                    child: Image.asset(
-                      'assets/roshar_map.jpeg', // This is a placeholder
-                      fit: BoxFit.fitHeight,
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 20,
-                    left: (screenWidth / 2) - 50,
+                  GestureDetector(
                     child: Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.all(Radius.circular(45)),
-                        image: DecorationImage(
-                          image: AssetImage(
-                            'assets/default_user.png',
-                          ),
-                          fit: BoxFit.cover,
-                        ),
+                      color: _bgColor,
+                    ),
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            titlePadding: const EdgeInsets.all(0.0),
+                            contentPadding: const EdgeInsets.all(0.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
+                            content: SingleChildScrollView(
+                              child: SlidePicker(
+                                pickerColor: _bgColor,
+                                onColorChanged: changeColor,
+                                paletteType: PaletteType.rgb,
+                                enableAlpha: false,
+                                displayThumbColor: true,
+                                showLabel: false,
+                                showIndicator: true,
+                                indicatorBorderRadius:
+                                    const BorderRadius.vertical(
+                                  top: const Radius.circular(25.0),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  Center(
+                    child: CircleAvatar(
+                      radius: 60,
+                      backgroundImage: AssetImage(
+                        'assets/default_user.png',
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 20.0),
-            ListTile(
-              title: Text(
-                'Email',
-                style: Theme.of(context).textTheme.headline5,
-              ),
-              subtitle: Text(
-                FirebaseAuth.instance.currentUser.email,
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              trailing: IconButton(
-                icon: FaIcon(FontAwesomeIcons.solidEdit),
-                splashColor: Colors.transparent,
-                onPressed: () {},
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListTile(
+                title: Text(
+                  'Email',
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                subtitle: Text(
+                  FirebaseAuth.instance.currentUser.email,
+                  style: Theme.of(context).textTheme.headline6,
+                ),
               ),
             ),
-            ListTile(
-              title: Row(
-                children: [
-                  Text('Theme', style: Theme.of(context).textTheme.headline5),
-                  themeListTile(),
-                ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListTile(
+                title:
+                    Text('Theme', style: Theme.of(context).textTheme.headline5),
+                subtitle: Row(
+                  children: [
+                    themeListTile(),
+                  ],
+                ),
               ),
             ),
-            RaisedButton(
-              child: Text(
-                'logout',
-                style: Theme.of(context).textTheme.headline6,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8.0),
+                  ),
+                ),
+                child: Text(
+                  'logout',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                color: Colors.red,
+                onPressed: () async {
+                  await FirebaseAuth.instance.signOut();
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil('/login', (route) => false);
+                },
               ),
-              color: Colors.red,
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil('/login', (route) => false);
-              },
             ),
           ],
         ),
@@ -96,40 +127,48 @@ class _ProfileScreen extends State<ProfileScreen> {
   themeListTile() {
     final Map<dynamic, Widget> options = Map.unmodifiable(
       {
-        'system': Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.brightness_4),
-            SizedBox(width: 6),
-            Text('System'),
-          ],
+        Global.systemTheme: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Icon(Icons.brightness_4),
+              Text('System'),
+            ],
+          ),
         ),
-        'Light': Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.brightness_low),
-            SizedBox(width: 6),
-            Text('Light'),
-          ],
+        Global.lightTheme: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Icon(Icons.brightness_low),
+              Text('Light'),
+            ],
+          ),
         ),
-        'Dark': Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.brightness_3),
-            SizedBox(width: 6),
-            Text('Dark'),
-          ],
+        Global.darkTheme: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Icon(Icons.brightness_3),
+              Text('Dark'),
+            ],
+          ),
         ),
       },
     );
 
     return Expanded(
       child: Align(
-        alignment: Alignment.centerRight,
+        alignment: Alignment.centerLeft,
         child: CupertinoSlidingSegmentedControl(
           groupValue: 'system',
           children: options,
-          onValueChanged: (value) {},
+          onValueChanged: (value) {
+            print(value);
+          },
           thumbColor: Color(0xFF69ade4),
         ),
       ),
