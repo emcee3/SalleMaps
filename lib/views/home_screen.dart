@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salle_maps/views/profile_screen.dart';
 
-import '../views/map_screen.dart';
-import '../views/list_screen.dart';
+import 'package:salle_maps/views/map_screen.dart';
+import 'package:salle_maps/views/list_screen.dart';
 
-import '../view_models/map_view_model.dart';
+import 'package:salle_maps/view_models/poi_list_view_model.dart';
 
-import '../widgets/home_bottom_nav_bar.dart';
-import '../widgets/home_floating_action_button.dart';
+import 'package:salle_maps/widgets/home_bottom_nav_bar.dart';
+import 'package:salle_maps/widgets/home_floating_action_button.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -19,8 +19,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _screens = [
-    ChangeNotifierProvider(
-      create: (context) => MapViewModel(),
+    ChangeNotifierProvider<POIListViewModel>(
+      create: (_) => POIListViewModel(),
       child: MapScreen(),
     ),
     ProfileScreen(),

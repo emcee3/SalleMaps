@@ -1,8 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '../view_models/map_view_model.dart';
+import 'package:salle_maps/view_models/poi_list_view_model.dart';
 
 class MapScreen extends StatefulWidget {
   MapScreen({Key key}) : super(key: key);
@@ -12,35 +14,48 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreen extends State<MapScreen> {
+  Completer<GoogleMapController> googleMapsController = Completer();
+
+  static final LatLng laSalleCoords =
+      LatLng(41.408746627104975, 2.130265356254578);
+
+  final CameraPosition defaultPosition = CameraPosition(
+    target: laSalleCoords,
+    zoom: 20,
+  );
+
   @override
   void initState() {
     super.initState();
-    Provider.of<MapViewModel>(context, listen: false).getCustomPin();
+    Provider.of<POIListViewModel>(context, listen: false).loadCustomPin();
+    Provider.of<POIListViewModel>(context, listen: false).fetchAllPOIs();
   }
 
   @override
   Widget build(BuildContext context) {
-    final vm = Provider.of<MapViewModel>(context);
+    final poiListViewModel = Provider.of<POIListViewModel>(context);
+
     return new Scaffold(
       body: GoogleMap(
         mapType: MapType.normal,
-        initialCameraPosition: vm.defaultPosition,
-        markers: vm.markers,
+        initialCameraPosition: defaultPosition,
+        markers: poiListViewModel.markers,
         onMapCreated: (GoogleMapController controller) {
-          vm.googleMapsController.complete(controller);
+          googleMapsController.complete(controller);
           setState(() {
-            vm.markers.add(
+            poiListViewModel.markers.addAll(poiListViewModel.markers);
+            poiListViewModel.markers.add(
               Marker(
                 markerId: MarkerId('default_marker'),
-                position: MapViewModel.laSalleCoords,
-                icon: vm.pinLocationIcon,
+                position: laSalleCoords,
+                icon: poiListViewModel.pinLocationIcon,
               ),
             );
           });
         },
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: vm.goToLaSalle,
+        onPressed: () {},
         label: Text('To LaSalle!'),
         icon: Icon(Icons.school),
       ),
