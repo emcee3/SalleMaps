@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:salle_maps/services/services.dart';
+
+import '../utils/utils.dart';
+
+import '../services/services.dart';
 
 class RegisterScreen extends StatefulWidget {
   RegisterScreen({Key key}) : super(key: key);
@@ -43,7 +46,9 @@ class _RegisterScreen extends State<RegisterScreen> {
                         border: const OutlineInputBorder(),
                       ),
                       validator: (value) {
-                        return validateEmail(value);
+                        return InputValidators.validateEmail(value)
+                            ? null
+                            : 'Enter a valid email.';
                       },
                     ),
                   ),
@@ -57,12 +62,8 @@ class _RegisterScreen extends State<RegisterScreen> {
                         border: const OutlineInputBorder(),
                       ),
                       obscureText: true, // Update with suffix's onTap
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please, enter your name.';
-                        }
-                        return null;
-                      },
+                      validator: (value) =>
+                          value.isEmpty ? 'Please, enter your password.' : null,
                     ),
                   ),
                   Padding(
@@ -75,12 +76,8 @@ class _RegisterScreen extends State<RegisterScreen> {
                         border: const OutlineInputBorder(),
                       ),
                       obscureText: true, // Update with suffix's onTap
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please, enter your name.';
-                        }
-                        return null;
-                      },
+                      validator: (value) =>
+                          value.isEmpty ? 'Please, enter your password.' : null,
                     ),
                   ),
                   Padding(
@@ -109,46 +106,38 @@ class _RegisterScreen extends State<RegisterScreen> {
                                   _emailCntlr.text, _passCntlr.text);
                               switch (res) {
                                 case Global.signUpSuccess:
-                                  {
-                                    Navigator.pop(context);
-                                  }
+                                  Navigator.pop(context);
                                   break;
                                 case Global.signUpErrorPassword:
-                                  {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("weak password"),
-                                        backgroundColor: Colors.red,
-                                      ),
-                                    );
-                                  }
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Weak password."),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
                                   break;
                                 case Global.signUpErrorEmail:
-                                  {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("email already in use"),
-                                        backgroundColor: Colors.red,
-                                      ),
-                                    );
-                                  }
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Email already in use."),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
                                   break;
                                 case Global.signUpError:
-                                  {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("error signing up"),
-                                        backgroundColor: Colors.red,
-                                      ),
-                                    );
-                                  }
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Error signing up."),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
                                   break;
                               }
                             }
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text("passwords don't match"),
+                                content: Text('Passwords don\'t match.'),
                                 backgroundColor: Colors.red,
                               ),
                             );
@@ -171,19 +160,5 @@ class _RegisterScreen extends State<RegisterScreen> {
         ),
       ),
     );
-  }
-
-  String validateEmail(String value) {
-    Pattern pattern =
-        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
-    RegExp regex = new RegExp(pattern);
-    if (value.isEmpty) {
-      return 'Please enter email';
-    } else {
-      if (!regex.hasMatch(value))
-        return 'Enter valid email';
-      else
-        return null;
-    }
   }
 }

@@ -53,12 +53,8 @@ class _LoginScreen extends State<LoginScreen> {
                         suffixIcon: Icon(Icons.mail),
                         border: const OutlineInputBorder(),
                       ),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please, enter your email.';
-                        }
-                        return null;
-                      },
+                      validator: (value) =>
+                          value.isEmpty ? 'Please, enter your email.' : null,
                     ),
                   ),
                   Padding(
@@ -71,12 +67,8 @@ class _LoginScreen extends State<LoginScreen> {
                         border: const OutlineInputBorder(),
                       ),
                       obscureText: true, // Update with suffix's onTap
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please, enter your name.';
-                        }
-                        return null;
-                      },
+                      validator: (value) =>
+                          value.isEmpty ? 'Please, enter your password.' : null,
                     ),
                   ),
                   Padding(
@@ -86,7 +78,7 @@ class _LoginScreen extends State<LoginScreen> {
                       children: [
                         Text('Forgot password?'),
                         GestureDetector(
-                          child: Text('Don' 't have an account?'),
+                          child: Text('Don\'t have an account?'),
                           onTap: () {
                             Navigator.pushNamed(context, '/register');
                           },
@@ -116,7 +108,7 @@ class _LoginScreen extends State<LoginScreen> {
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text("email / password incorrect"),
+                                  content: Text("Email or password incorrect."),
                                   backgroundColor: Colors.red,
                                 ),
                               );
