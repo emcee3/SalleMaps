@@ -1,8 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({Key key}) : super(key: key);
@@ -54,38 +54,12 @@ class _ProfileScreen extends State<ProfileScreen> {
             SizedBox(height: 20.0),
             ListTile(
               title: Text(
-                'Name',
-                style: Theme.of(context).textTheme.headline5,
-              ),
-              subtitle: Text(
-                'John Doe',
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              trailing: IconButton(
-                icon: FaIcon(FontAwesomeIcons.solidEdit),
-                splashColor: Colors.transparent,
-                onPressed: () {},
-              ),
-            ),
-            ListTile(
-              title: Text(
                 'Email',
                 style: Theme.of(context).textTheme.headline5,
               ),
               subtitle: Text(
-                'johndoe@email.com',
+                FirebaseAuth.instance.currentUser.email,
                 style: Theme.of(context).textTheme.headline6,
-              ),
-              trailing: IconButton(
-                icon: FaIcon(FontAwesomeIcons.solidEdit),
-                splashColor: Colors.transparent,
-                onPressed: () {},
-              ),
-            ),
-            ListTile(
-              title: Text(
-                'Password',
-                style: Theme.of(context).textTheme.headline5,
               ),
               trailing: IconButton(
                 icon: FaIcon(FontAwesomeIcons.solidEdit),
@@ -101,36 +75,18 @@ class _ProfileScreen extends State<ProfileScreen> {
                 ],
               ),
             ),
-            // ListTile(
-            //   title: Row(
-            //     children: [
-            //       Text('Theme', style: Theme.of(context).textTheme.headline5),
-            //       Expanded(
-            //         child: Align(
-            //           alignment: Alignment.centerRight,
-            //           child: ToggleSwitch(
-            //             minWidth: 90.0,
-            //             minHeight: 50.0,
-            //             cornerRadius: 100.0,
-            //             fontSize: 16.0,
-            //             iconSize: 20.0,
-            //             initialLabelIndex: 0,
-            //             icons: [
-            //               FontAwesomeIcons.solidSun,
-            //               FontAwesomeIcons.mobileAlt,
-            //               FontAwesomeIcons.solidMoon,
-            //             ],
-            //             labels: ['Light', 'System', 'Dark'],
-            //             activeBgColor: Color(0xFF69ade4),
-            //             activeFgColor: Colors.black,
-            //             inactiveBgColor: Colors.grey,
-            //             inactiveFgColor: Colors.black,
-            //           ),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
+            RaisedButton(
+              child: Text(
+                'logout',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              color: Colors.red,
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil('/login', (route) => false);
+              },
+            ),
           ],
         ),
       ),

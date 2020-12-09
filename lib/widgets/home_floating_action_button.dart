@@ -13,6 +13,7 @@ class HomeFloatingActionButton extends StatelessWidget {
       child: Icon(Icons.add),
       elevation: 2.0,
       backgroundColor: Colors.orange,
+      heroTag: "fabHome",
     );
   }
 }

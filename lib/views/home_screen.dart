@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:salle_maps/views/profile_screen.dart';
 
 import '../views/map_screen.dart';
 import '../views/list_screen.dart';
@@ -22,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
       create: (context) => MapViewModel(),
       child: MapScreen(),
     ),
-    ListScreen(),
+    ProfileScreen(),
   ];
   int _currentTabIndex = 0;
 

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>768698275812-1tkscecstlbvv3uoi5rghc7m1ohgdjuv.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.768698275812-1tkscecstlbvv3uoi5rghc7m1ohgdjuv</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>768698275812-6577djsg2etlai0b6m9qn7mo5fmtj8dd.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyD9TJ2x57S_bDHNVpD44PoNYtHH1dESp2c</string>
+	<key>GCM_SENDER_ID</key>
+	<string>768698275812</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>edu.salle.salleMaps</string>
+	<key>PROJECT_ID</key>
+	<string>sallemaps-70731</string>
+	<key>STORAGE_BUCKET</key>
+	<string>sallemaps-70731.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:768698275812:ios:f1b50ee4438d8c9e93d9f1</string>
+</dict>
+</plist>
