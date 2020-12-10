@@ -64,7 +64,7 @@ class _HomeBottomNavBar extends State<HomeBottomNavBar> {
           child: InkWell(
             onTap: () => _updateIndex(index),
             child: Icon(
-              index == 0 ? Icons.map : Icons.person,
+              index == 0 ? Icons.map : Icons.list,
               size: 24.0,
               color: _currentIndex == index ? Colors.white : Colors.black,
             ),
