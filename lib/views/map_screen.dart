@@ -21,7 +21,7 @@ class _MapScreen extends State<MapScreen> {
 
   final CameraPosition defaultPosition = CameraPosition(
     target: laSalleCoords,
-    zoom: 20,
+    zoom: 13,
   );
 
   @override
@@ -29,6 +29,7 @@ class _MapScreen extends State<MapScreen> {
     super.initState();
     Provider.of<POIListViewModel>(context, listen: false).loadCustomPin();
     Provider.of<POIListViewModel>(context, listen: false).fetchAllPOIs();
+    Provider.of<POIListViewModel>(context, listen: false).fetchPOITypes();
   }
 
   @override
@@ -40,25 +41,39 @@ class _MapScreen extends State<MapScreen> {
         mapType: MapType.normal,
         initialCameraPosition: defaultPosition,
         markers: poiListViewModel.markers,
+        myLocationEnabled: true,
+        myLocationButtonEnabled: false,
+        zoomControlsEnabled: false,
         onMapCreated: (GoogleMapController controller) {
           googleMapsController.complete(controller);
-          setState(() {
-            poiListViewModel.markers.addAll(poiListViewModel.markers);
-            poiListViewModel.markers.add(
-              Marker(
-                markerId: MarkerId('default_marker'),
-                position: laSalleCoords,
-                icon: poiListViewModel.pinLocationIcon,
-              ),
-            );
-          });
         },
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
-        label: Text('To LaSalle!'),
-        icon: Icon(Icons.school),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: openFilters,
+            child: Icon(
+              Icons.layers_outlined,
+              color: Colors.grey[900],
+            ),
+            backgroundColor: Colors.white,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          FloatingActionButton(
+            onPressed: () =>
+                poiListViewModel.goToCurrentLocation(googleMapsController),
+            child: Icon(Icons.my_location),
+            heroTag: 'fabCurrentLocation',
+          ),
+        ],
       ),
     );
+  }
+
+  void openFilters() {
+    print('openFilters');
   }
 }

@@ -6,6 +6,7 @@ import 'package:salle_maps/views/map_screen.dart';
 import 'package:salle_maps/views/list_screen.dart';
 
 import 'package:salle_maps/view_models/poi_list_view_model.dart';
+import 'package:salle_maps/view_models/poi_type_view_model.dart';
 
 import 'package:salle_maps/widgets/home_bottom_nav_bar.dart';
 import 'package:salle_maps/widgets/home_floating_action_button.dart';
@@ -19,8 +20,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _screens = [
-    ChangeNotifierProvider<POIListViewModel>(
-      create: (_) => POIListViewModel(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<POIListViewModel>(
+            create: (_) => POIListViewModel()),
+        ChangeNotifierProvider<POITypeViewModel>(
+            create: (_) => POITypeViewModel()),
+      ],
       child: MapScreen(),
     ),
     ProfileScreen(),
