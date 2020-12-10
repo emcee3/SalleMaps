@@ -41,6 +41,7 @@ class _HomeInputSearch extends State<HomeInputSearch> {
                 onSelected: (bool selected) {},
                 backgroundColor: Colors.white,
                 selectedColor: Color(0xFF69ade4),
+                elevation: 2.0,
               ),
               FilterChip(
                 label: Text('Alphabetic'),
@@ -48,6 +49,7 @@ class _HomeInputSearch extends State<HomeInputSearch> {
                 onSelected: (bool selected) {},
                 backgroundColor: Colors.white,
                 selectedColor: Color(0xFF69ade4),
+                elevation: 2.0,
               ),
               FilterChip(
                 label: Text('Type'),
@@ -55,6 +57,7 @@ class _HomeInputSearch extends State<HomeInputSearch> {
                 onSelected: (bool selected) {},
                 backgroundColor: Colors.white,
                 selectedColor: Color(0xFF69ade4),
+                elevation: 2.0,
               ),
             ],
           ),

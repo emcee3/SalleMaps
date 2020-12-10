@@ -55,7 +55,6 @@ class POIListViewModel extends ChangeNotifier {
   }
 
   onPoiTap(POIViewModel poi, BuildContext context) {
-    print('onPoiTap');
     showModalBottomSheet(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
