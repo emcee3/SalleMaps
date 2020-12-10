@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 import 'package:salle_maps/services/services.dart';
+import 'package:salle_maps/widgets/poi_card.dart';
 
 import 'poi_view_model.dart';
 import 'poi_type_view_model.dart';
@@ -29,7 +30,7 @@ class POIListViewModel extends ChangeNotifier {
     if (!_isDisposed) super.notifyListeners();
   }
 
-  Future<void> fetchAllPOIs() async {
+  Future<void> fetchAllPOIs(BuildContext context) async {
     final result = await WebService().fetchAllPOIs();
     this.pois = result.map((item) => POIViewModel(poi: item)).toList();
 
@@ -37,15 +38,36 @@ class POIListViewModel extends ChangeNotifier {
       markers.add(
         Marker(
           markerId: MarkerId(poi.poiData.id),
+          icon: pinLocationIcon,
           position: new LatLng(
             double.parse(poi.poiData.latitud),
             double.parse(poi.poiData.longitud),
           ),
-          icon: pinLocationIcon,
+          onTap: () => onPoiTap(poi, context),
+          infoWindow: InfoWindow(
+            title: poi.poiData.nombreEn,
+            snippet: poi.poiData.informacionEn,
+          ),
         ),
       );
     });
     notifyListeners();
+  }
+
+  onPoiTap(POIViewModel poi, BuildContext context) {
+    print('onPoiTap');
+    showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10.0),
+          topRight: Radius.circular(10.0),
+        ),
+      ),
+      context: context,
+      builder: (BuildContext context) {
+        return POICard(poi: poi);
+      },
+    );
   }
 
   Future<void> fetchPOITypes() async {

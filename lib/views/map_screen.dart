@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:expandable_bottom_sheet/expandable_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +29,7 @@ class _MapScreen extends State<MapScreen> {
   void initState() {
     super.initState();
     Provider.of<POIListViewModel>(context, listen: false).loadCustomPin();
-    Provider.of<POIListViewModel>(context, listen: false).fetchAllPOIs();
+    Provider.of<POIListViewModel>(context, listen: false).fetchAllPOIs(context);
     Provider.of<POIListViewModel>(context, listen: false).fetchPOITypes();
   }
 
