@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:expandable_bottom_sheet/expandable_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'package:salle_maps/view_models/poi_list_view_model.dart';
+import 'package:salle_maps/widgets/home_input_search.dart';
 
 class MapScreen extends StatefulWidget {
   MapScreen({Key key}) : super(key: key);
@@ -38,16 +38,21 @@ class _MapScreen extends State<MapScreen> {
     final poiListViewModel = Provider.of<POIListViewModel>(context);
 
     return new Scaffold(
-      body: GoogleMap(
-        mapType: MapType.normal,
-        initialCameraPosition: defaultPosition,
-        markers: poiListViewModel.markers,
-        myLocationEnabled: true,
-        myLocationButtonEnabled: false,
-        zoomControlsEnabled: false,
-        onMapCreated: (GoogleMapController controller) {
-          googleMapsController.complete(controller);
-        },
+      body: Stack(
+        children: [
+          GoogleMap(
+            mapType: MapType.normal,
+            initialCameraPosition: defaultPosition,
+            markers: poiListViewModel.markers,
+            myLocationEnabled: true,
+            myLocationButtonEnabled: false,
+            zoomControlsEnabled: false,
+            onMapCreated: (GoogleMapController controller) {
+              googleMapsController.complete(controller);
+            },
+          ),
+          HomeInputSearch(),
+        ],
       ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,

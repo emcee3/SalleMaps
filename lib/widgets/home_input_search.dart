@@ -1,0 +1,65 @@
+import 'package:flutter/material.dart';
+
+class HomeInputSearch extends StatefulWidget {
+  @override
+  _HomeInputSearch createState() => new _HomeInputSearch();
+}
+
+class _HomeInputSearch extends State<HomeInputSearch> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 12.0, right: 12.0, top: 80.0),
+      child: Column(
+        children: [
+          TextField(
+            decoration: InputDecoration(
+              hintText: 'Search point of interest...',
+              filled: true,
+              fillColor: Colors.white,
+              prefixIcon: Icon(Icons.search),
+              border: new OutlineInputBorder(
+                borderRadius:
+                    const BorderRadius.all(const Radius.circular(100.0)),
+                borderSide: BorderSide(width: 0, style: BorderStyle.none),
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                'Order by: ',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              FilterChip(
+                label: Text('Distance'),
+                selected: false,
+                onSelected: (bool selected) {},
+                backgroundColor: Colors.white,
+                selectedColor: Color(0xFF69ade4),
+              ),
+              FilterChip(
+                label: Text('Alphabetic'),
+                selected: true,
+                onSelected: (bool selected) {},
+                backgroundColor: Colors.white,
+                selectedColor: Color(0xFF69ade4),
+              ),
+              FilterChip(
+                label: Text('Type'),
+                selected: false,
+                onSelected: (bool selected) {},
+                backgroundColor: Colors.white,
+                selectedColor: Color(0xFF69ade4),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
