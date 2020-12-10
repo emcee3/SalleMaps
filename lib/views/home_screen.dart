@@ -45,30 +45,8 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-        title: Text(
-          'Salle Maps',
-          style: Theme.of(context).textTheme.headline5,
-        ),
+        title: Image.asset('assets/la_salle_maps_logo.png', width: 200.0),
         centerTitle: true,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(context, '/profile');
-          },
-          child: Container(
-            width: 100,
-            height: 100,
-            margin: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                image: AssetImage(
-                  'assets/default_user.png',
-                ),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       // floatingActionButton: HomeFloatingActionButton(),
