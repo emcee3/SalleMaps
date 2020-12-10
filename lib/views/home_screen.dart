@@ -71,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: HomeFloatingActionButton(),
+      // floatingActionButton: HomeFloatingActionButton(),
       bottomNavigationBar: HomeBottomNavBar(onTabSelected: _selectTabIndex),
       // * IndexedStack prevents from loading the map over and over again
       body: IndexedStack(
