@@ -12,19 +12,35 @@ class _HomeInputSearch extends State<HomeInputSearch> {
       padding: const EdgeInsets.only(left: 12.0, right: 12.0, top: 80.0),
       child: Column(
         children: [
-          TextField(
-            autofocus: false,
-            decoration: InputDecoration(
-              hintText: 'Search point of interest...',
-              filled: true,
-              fillColor: Colors.white,
-              prefixIcon: Icon(Icons.search),
-              border: new OutlineInputBorder(
-                borderRadius:
-                    const BorderRadius.all(const Radius.circular(100.0)),
-                borderSide: BorderSide(width: 0, style: BorderStyle.none),
+          Stack(
+            alignment: Alignment.centerRight,
+            children: [
+              TextField(
+                autofocus: false,
+                decoration: InputDecoration(
+                  hintText: 'Search point of interest...',
+                  filled: true,
+                  fillColor: Colors.white,
+                  prefixIcon: Icon(Icons.search),
+                  border: new OutlineInputBorder(
+                    borderRadius:
+                        const BorderRadius.all(const Radius.circular(100.0)),
+                    borderSide: BorderSide(width: 0, style: BorderStyle.none),
+                  ),
+                ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/profile');
+                  },
+                  child: CircleAvatar(
+                    backgroundImage: AssetImage('assets/default_user.png'),
+                  ),
+                ),
+              ),
+            ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
