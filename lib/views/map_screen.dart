@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +38,7 @@ class _MapScreen extends State<MapScreen> {
   Widget build(BuildContext context) {
     final poiListViewModel = Provider.of<POIListViewModel>(context);
 
-    return new Scaffold(
+    return Scaffold(
       body: Stack(
         children: [
           GoogleMap(

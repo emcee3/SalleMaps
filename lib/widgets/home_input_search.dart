@@ -13,6 +13,7 @@ class _HomeInputSearch extends State<HomeInputSearch> {
       child: Column(
         children: [
           TextField(
+            autofocus: false,
             decoration: InputDecoration(
               hintText: 'Search point of interest...',
               filled: true,

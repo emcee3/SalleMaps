@@ -42,9 +42,9 @@ class _ListScreen extends State<ListScreen> {
               removeTop: true,
               context: context,
               child: ListView.builder(
-                itemCount: 10, //poiListViewModel.pois.length,
+                itemCount: poiListViewModel.pois.length,
                 itemBuilder: (BuildContext context, int index) {
-                  final poi = poiListViewModel.pois[0];
+                  final poi = poiListViewModel.pois[index];
                   return buildPoiListTile(
                       poi, context, poiListViewModel, index);
                 },
