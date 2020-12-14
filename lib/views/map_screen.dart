@@ -52,7 +52,7 @@ class _MapScreen extends State<MapScreen> {
               googleMapsController.complete(controller);
             },
           ),
-          HomeInputSearch(),
+          HomeInputSearch(showOrderOptions: false),
         ],
       ),
       floatingActionButton: Column(
