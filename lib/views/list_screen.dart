@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:salle_maps/view_models/poi_list_view_model.dart';
-import 'package:salle_maps/view_models/poi_view_model.dart';
 
 import 'package:salle_maps/widgets/home_input_search.dart';
+import 'package:salle_maps/widgets/poi_list_tile.dart';
 
 class ListScreen extends StatefulWidget {
   ListScreen({Key key}) : super(key: key);
@@ -45,37 +45,17 @@ class _ListScreen extends State<ListScreen> {
                 itemCount: poiListViewModel.pois.length,
                 itemBuilder: (BuildContext context, int index) {
                   final poi = poiListViewModel.pois[index];
-                  return buildPoiListTile(
-                      poi, context, poiListViewModel, index);
+                  return POIListTile(
+                    poi,
+                    index,
+                    () => poiListViewModel.onPoiTap(poi, context),
+                  );
                 },
               ),
             ),
           )
         ],
       ),
-    );
-  }
-
-  Widget buildPoiListTile(POIViewModel poi, BuildContext context,
-      POIListViewModel poiListViewModel, int index) {
-    return ListTile(
-      leading: CircleAvatar(
-        backgroundImage: NetworkImage(poi.poi.data.image),
-      ),
-      tileColor: Colors.white,
-      title: Text(
-        poi.poi.data.nombreEn,
-        style: Theme.of(context).textTheme.headline5,
-      ),
-      subtitle: Text(
-        poi.poi.data.informacionEn,
-        style: Theme.of(context).textTheme.subtitle1,
-      ),
-      onTap: () => poiListViewModel.onPoiTap(
-        poi,
-        context,
-      ),
-      trailing: Icon(Icons.arrow_forward_ios),
     );
   }
 }
