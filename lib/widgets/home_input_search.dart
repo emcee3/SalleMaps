@@ -23,21 +23,26 @@ class _HomeInputSearch extends State<HomeInputSearch> {
           Stack(
             alignment: Alignment.centerRight,
             children: [
-              TextField(
-                focusNode: AlwaysDisabledFocusNode(),
-                onTap: () => showSearch(
-                  context: context,
-                  delegate: POISearch(poiListViewModel.pois),
-                ),
-                decoration: InputDecoration(
-                  hintText: 'Search point of interest...',
-                  filled: true,
-                  fillColor: Colors.white,
-                  prefixIcon: Icon(Icons.search),
-                  border: new OutlineInputBorder(
-                    borderRadius:
-                        const BorderRadius.all(const Radius.circular(100.0)),
-                    borderSide: BorderSide(width: 0, style: BorderStyle.none),
+              Material(
+                elevation: 2.0,
+                borderRadius:
+                    const BorderRadius.all(const Radius.circular(100.0)),
+                child: TextField(
+                  focusNode: AlwaysDisabledFocusNode(),
+                  onTap: () => showSearch(
+                    context: context,
+                    delegate: POISearch(poiListViewModel.pois),
+                  ),
+                  decoration: InputDecoration(
+                    hintText: 'Search point of interest...',
+                    filled: true,
+                    fillColor: Colors.white,
+                    prefixIcon: Icon(Icons.search),
+                    border: new OutlineInputBorder(
+                      borderRadius:
+                          const BorderRadius.all(const Radius.circular(100.0)),
+                      borderSide: BorderSide(width: 0, style: BorderStyle.none),
+                    ),
                   ),
                 ),
               ),
