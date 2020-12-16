@@ -49,6 +49,7 @@ class _MapScreen extends State<MapScreen> {
             markers: poiListViewModel.markers,
             myLocationEnabled: true,
             myLocationButtonEnabled: false,
+            mapToolbarEnabled: false,
             zoomControlsEnabled: false,
             onMapCreated: (GoogleMapController controller) {
               googleMapsController.complete(controller);
