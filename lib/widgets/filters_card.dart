@@ -30,7 +30,7 @@ class _FiltersCardState extends State<FiltersCard> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: widget.vm.poiTypes
-                    .map((typeVM) => _buildTypeOption(typeVM.tipoEn))
+                    .map((typeVM) => _buildTypeOption(typeVM))
                     .toList(),
               ),
             ),
@@ -40,7 +40,7 @@ class _FiltersCardState extends State<FiltersCard> {
     );
   }
 
-  Widget _buildTypeOption(String label) {
+  Widget _buildTypeOption(POITypeViewModel type) {
     return GestureDetector(
       onTap: () {},
       child: Column(
@@ -51,19 +51,24 @@ class _FiltersCardState extends State<FiltersCard> {
             elevation: 2.0,
             shape: CircleBorder(),
             child: Container(
-              width: 60.0,
-              height: 60.0,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white,
-                boxShadow: [BoxShadow(blurRadius: 1.0)],
-              ),
-              child: Icon(Icons.hotel),
-            ),
+                width: 50.0,
+                height: 50.0,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                  boxShadow: [BoxShadow(blurRadius: 1.0)],
+                ),
+                child: type.id == '1'
+                    ? Icon(Icons.hotel)
+                    : type.id == '2'
+                        ? Icon(Icons.restaurant)
+                        : type.id == '3'
+                            ? Icon(Icons.attractions)
+                            : null),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: Text(label, style: TextStyle(fontSize: 16)),
+            child: Text(type.tipoEn, style: TextStyle(fontSize: 16)),
           ),
         ],
       ),
