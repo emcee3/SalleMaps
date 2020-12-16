@@ -20,15 +20,6 @@ class _LoginScreen extends State<LoginScreen> {
   var _passCntlr = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-
-    FirebaseAuth.instance.authStateChanges().listen((User user) {
-      if (user != null) Navigator.pushReplacementNamed(context, '/home');
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFF69ade4),
@@ -183,12 +174,12 @@ class _LoginScreen extends State<LoginScreen> {
       context,
       MaterialPageRoute(builder: (context) => RegisterScreen()),
     );
-    print("RESULT REGISTER: " + result.toString());
-    if (result == "success") {
+    print("RESULT REGISTER: $result");
+    if (result == Global.signUpSuccess) {
       ScaffoldMessenger.of(context)
         ..removeCurrentSnackBar()
         ..showSnackBar(SnackBar(
-          content: Text("$result"),
+          content: Text("Sign up success."),
           backgroundColor: Colors.green,
         ));
     }

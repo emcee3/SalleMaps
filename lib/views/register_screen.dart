@@ -93,7 +93,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                     child: GestureDetector(
                       child: Text('Already have an account?'),
                       onTap: () {
-                        Navigator.pop(context);
+                        // Navigator.pop(context);
                       },
                     ),
                   ),
@@ -107,50 +107,6 @@ class _RegisterScreen extends State<RegisterScreen> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40)),
                         color: Colors.black26,
-                        onPressed: () async {
-                          if (_formKey.currentState.validate()) {
-                            if (_passCntlr.text == _confirmPassCntlr.text) {
-                              final res = await auth.signUp(
-                                  _emailCntlr.text.trim(), _passCntlr.text.trim());
-                              switch (res) {
-                                case Global.signUpSuccess:
-                                  Navigator.pop(context, "success");
-                                  break;
-                                case Global.signUpErrorPassword:
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Weak password."),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                  break;
-                                case Global.signUpErrorEmail:
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Email already in use."),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                  break;
-                                case Global.signUpError:
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Error signing up."),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                  break;
-                              }
-                            }
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Passwords don\'t match.'),
-                                backgroundColor: Colors.red,
-                              ),
-                            );
-                          }
-                        },
                         child: Padding(
                           padding: const EdgeInsets.only(left: 10.0),
                           child: Text(
@@ -158,6 +114,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                             style: Theme.of(context).textTheme.bodyText1,
                           ),
                         ),
+                        onPressed: () => _trySignUp(context),
                       ),
                     ),
                   ),
@@ -168,5 +125,53 @@ class _RegisterScreen extends State<RegisterScreen> {
         ),
       ),
     );
+  }
+
+  Future _trySignUp(BuildContext context) async {
+    if (_formKey.currentState.validate()) {
+      if (_passCntlr.text == _confirmPassCntlr.text) {
+        await auth
+            .signUp(_emailCntlr.text.trim(), _passCntlr.text.trim())
+            .then((res) {
+          switch (res) {
+            case Global.signUpSuccess:
+              print('Sign up success $res');
+              Navigator.pop(context, Global.signUpSuccess);
+              break;
+            case Global.signUpErrorPassword:
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("Weak password."),
+                  backgroundColor: Colors.red,
+                ),
+              );
+              break;
+            case Global.signUpErrorEmail:
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("Email already in use."),
+                  backgroundColor: Colors.red,
+                ),
+              );
+              break;
+            case Global.signUpError:
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("Error signing up."),
+                  backgroundColor: Colors.red,
+                ),
+              );
+              break;
+          }
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Passwords don\'t match.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 }

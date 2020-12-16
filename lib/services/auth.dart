@@ -9,14 +9,11 @@ class AuthService {
         email: email,
         password: password,
       );
-      print("REGISTER SUCCESS!");
       return Global.signUpSuccess;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
         return Global.signUpErrorPassword;
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
         return Global.signUpErrorEmail;
       }
     } catch (e) {
@@ -32,7 +29,6 @@ class AuthService {
         email: email,
         password: password,
       );
-      print("LOGIN SUCCESS!");
       return userCredential;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -45,13 +41,14 @@ class AuthService {
   }
 
   /// Sign in with Google
-    //TODO: https://firebase.flutter.dev/docs/auth/social
+  //TODO: https://firebase.flutter.dev/docs/auth/social
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
 
     // Create a new credential
     final GoogleAuthCredential credential = GoogleAuthProvider.credential(
