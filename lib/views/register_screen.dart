@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import '../utils/utils.dart';
 
@@ -17,8 +18,6 @@ class _RegisterScreen extends State<RegisterScreen> {
   var _emailCntlr = TextEditingController();
   var _passCntlr = TextEditingController();
   var _confirmPassCntlr = TextEditingController();
-
-  AuthService auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +101,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
                             if (_passCntlr.text == _confirmPassCntlr.text) {
-                              final res = await auth.signUp(
+                              final res = await context.read<AuthService>().signUp(
                                   _emailCntlr.text, _passCntlr.text);
                               switch (res) {
                                 case Global.signUpSuccess:
