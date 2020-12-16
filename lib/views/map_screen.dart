@@ -86,7 +86,6 @@ class _MapScreen extends State<MapScreen> {
   }
 
   void openFilters(POIListViewModel poiListViewModel) {
-    print('openFilters');
     showModalBottomSheet(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -96,7 +95,10 @@ class _MapScreen extends State<MapScreen> {
       ),
       context: context,
       builder: (BuildContext context) {
-        return FiltersCard(vm: poiListViewModel);
+        return ChangeNotifierProvider<POIListViewModel>.value(
+          value: poiListViewModel,
+          child: FiltersCard(),
+        );
       },
     );
   }

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:salle_maps/view_models/poi_list_view_model.dart';
 import 'package:salle_maps/view_models/poi_type_view_model.dart';
 
 class FiltersCard extends StatefulWidget {
-  final POIListViewModel vm;
-
-  FiltersCard({Key key, @required this.vm}) : super(key: key);
-
   @override
   _FiltersCardState createState() => _FiltersCardState();
 }
@@ -15,6 +12,8 @@ class FiltersCard extends StatefulWidget {
 class _FiltersCardState extends State<FiltersCard> {
   @override
   Widget build(BuildContext context) {
+    final vm = Provider.of<POIListViewModel>(context);
+
     return Card(
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(12.0),
@@ -29,8 +28,8 @@ class _FiltersCardState extends State<FiltersCard> {
               padding: const EdgeInsets.only(top: 8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: widget.vm.poiTypes
-                    .map((typeVM) => _buildTypeOption(typeVM))
+                children: vm.poiTypes
+                    .map((typeVM) => _buildTypeOption(context, typeVM, vm))
                     .toList(),
               ),
             ),
@@ -40,9 +39,13 @@ class _FiltersCardState extends State<FiltersCard> {
     );
   }
 
-  Widget _buildTypeOption(POITypeViewModel type) {
+  Widget _buildTypeOption(
+      BuildContext context, POITypeViewModel type, POIListViewModel vm) {
+    bool isSelected = vm.typeFilters.contains(type.id);
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        vm.selectTypeFilter(context, type.id);
+      },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -51,20 +54,21 @@ class _FiltersCardState extends State<FiltersCard> {
             elevation: 2.0,
             shape: CircleBorder(),
             child: Container(
-                width: 50.0,
-                height: 50.0,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                  boxShadow: [BoxShadow(blurRadius: 1.0)],
-                ),
-                child: type.id == '1'
-                    ? Icon(Icons.hotel)
-                    : type.id == '2'
-                        ? Icon(Icons.restaurant)
-                        : type.id == '3'
-                            ? Icon(Icons.attractions)
-                            : null),
+              width: 50.0,
+              height: 50.0,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: isSelected ? Color(0xFF69ade4) : Colors.white,
+                boxShadow: [BoxShadow(blurRadius: 1.0)],
+              ),
+              child: type.id == '1'
+                  ? Icon(Icons.hotel)
+                  : type.id == '2'
+                      ? Icon(Icons.restaurant)
+                      : type.id == '3'
+                          ? Icon(Icons.attractions)
+                          : null,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),

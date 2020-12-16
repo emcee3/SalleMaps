@@ -12,9 +12,13 @@ import 'poi_type_view_model.dart';
 
 class POIListViewModel extends ChangeNotifier {
   BitmapDescriptor pinLocationIcon;
+
   List<POIViewModel> pois = List<POIViewModel>();
   List<POITypeViewModel> poiTypes = List<POITypeViewModel>();
+
   Set<Marker> markers = {};
+
+  Set<String> typeFilters = {};
 
   bool _isDisposed = false;
 
@@ -30,27 +34,27 @@ class POIListViewModel extends ChangeNotifier {
     if (!_isDisposed) super.notifyListeners();
   }
 
+  void addPoiToMarkers(BuildContext context, POIViewModel poi) {
+    markers.add(
+      Marker(
+        markerId: MarkerId(poi.poiData.id),
+        icon: pinLocationIcon,
+        position: new LatLng(
+          double.parse(poi.poiData.latitud),
+          double.parse(poi.poiData.longitud),
+        ),
+        onTap: () => onPoiTap(poi, context),
+        infoWindow: InfoWindow(
+          title: poi.poiData.nombreEn,
+          snippet: poi.poiData.informacionEn,
+        ),
+      ),
+    );
+  }
+
   Future<void> fetchAllPOIs(BuildContext context) async {
     final result = await WebService().fetchAllPOIs();
     this.pois = result.map((item) => POIViewModel(poi: item)).toList();
-
-    this.pois.forEach((poi) {
-      markers.add(
-        Marker(
-          markerId: MarkerId(poi.poiData.id),
-          icon: pinLocationIcon,
-          position: new LatLng(
-            double.parse(poi.poiData.latitud),
-            double.parse(poi.poiData.longitud),
-          ),
-          onTap: () => onPoiTap(poi, context),
-          infoWindow: InfoWindow(
-            title: poi.poiData.nombreEn,
-            snippet: poi.poiData.informacionEn,
-          ),
-        ),
-      );
-    });
     notifyListeners();
   }
 
@@ -103,5 +107,26 @@ class POIListViewModel extends ChangeNotifier {
       ImageConfiguration(size: Size(20.0, 20.0)),
       'assets/custom_pin.png',
     );
+  }
+
+  void selectTypeFilter(BuildContext context, String type) {
+    if (typeFilters.contains(type)) {
+      typeFilters.remove(type);
+    } else {
+      typeFilters.add(type);
+    }
+
+    updateMarkers(context);
+    notifyListeners();
+  }
+
+  void updateMarkers(BuildContext context) {
+    markers.clear();
+
+    pois.forEach((poi) {
+      if (typeFilters.contains(poi.poiType.id)) {
+        addPoiToMarkers(context, poi);
+      }
+    });
   }
 }
