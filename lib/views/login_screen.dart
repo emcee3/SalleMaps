@@ -1,9 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:salle_maps/services/services.dart';
-import 'file:///C:/Users/andre/AndroidStudioProjects/SalleMaps/lib/widgets/forgot_password_dialog.dart';
+import 'package:salle_maps/views/register_screen.dart';
+
+import 'package:salle_maps/widgets/forgot_password_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key}) : super(key: key);
@@ -19,12 +22,10 @@ class _LoginScreen extends State<LoginScreen> {
   var _passCntlr = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-
-    FirebaseAuth.instance.authStateChanges().listen((User user) {
-      if (user != null) Navigator.pushReplacementNamed(context, '/home');
-    });
+  void dispose() {
+    _emailCntlr.dispose();
+    _passCntlr.dispose();
+    super.dispose();
   }
 
   @override
@@ -81,12 +82,13 @@ class _LoginScreen extends State<LoginScreen> {
                           onTap: () {
                             showDialog(
                                 context: context,
-                                builder: (_) => ForgotPasswordDialog());                          },
+                                builder: (_) => ForgotPasswordDialog());
+                          },
                         ),
                         GestureDetector(
                           child: Text('Don\'t have an account?'),
                           onTap: () {
-                            Navigator.pushNamed(context, '/register');
+                            _navigateAndDisplaySelection(context);
                           },
                         ),
                       ],
@@ -151,7 +153,9 @@ class _LoginScreen extends State<LoginScreen> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40)),
                         color: Colors.white,
-                        onPressed: () {},
+                        onPressed: () {
+                          context.read<AuthService>().signInWithGoogle();
+                        },
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                           child: Row(
@@ -180,5 +184,21 @@ class _LoginScreen extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  _navigateAndDisplaySelection(BuildContext context) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RegisterScreen()),
+    );
+    print("RESULT REGISTER: $result");
+    if (result == Global.signUpSuccess) {
+      ScaffoldMessenger.of(context)
+        ..removeCurrentSnackBar()
+        ..showSnackBar(SnackBar(
+          content: Text("Sign up success."),
+          backgroundColor: Colors.green,
+        ));
+    }
   }
 }
