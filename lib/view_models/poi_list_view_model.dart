@@ -21,6 +21,7 @@ class POIListViewModel extends ChangeNotifier {
   Set<String> typeFilters = {};
 
   bool _isDisposed = false;
+  BuildContext mapContext;
 
   @override
   void dispose() {
@@ -34,7 +35,31 @@ class POIListViewModel extends ChangeNotifier {
     if (!_isDisposed) super.notifyListeners();
   }
 
-  void addPoiToMarkers(BuildContext context, POIViewModel poi) {
+  Future<void> fetchAllPOIs() async {
+    final result = await WebService().fetchAllPOIs();
+    this.pois = result.map((item) => POIViewModel(poi: item)).toList();
+    notifyListeners();
+  }
+
+  Future<void> fetchPOITypes() async {
+    final result = await WebService().fetchPOITypes();
+    this.poiTypes =
+        result.map((item) => POITypeViewModel(poiType: item)).toList();
+    notifyListeners();
+  }
+
+  void loadMapContext(BuildContext context) {
+    mapContext = context;
+  }
+
+  void loadCustomPin() async {
+    pinLocationIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(size: Size(20.0, 20.0)),
+      'assets/custom_pin.png',
+    );
+  }
+
+  void addPoiToMarkers(POIViewModel poi) {
     markers.add(
       Marker(
         markerId: MarkerId(poi.poiData.id),
@@ -43,7 +68,7 @@ class POIListViewModel extends ChangeNotifier {
           double.parse(poi.poiData.latitud),
           double.parse(poi.poiData.longitud),
         ),
-        onTap: () => onPoiTap(poi, context),
+        onTap: () => onMarkerTap(mapContext, poi),
         infoWindow: InfoWindow(
           title: poi.poiData.nombreEn,
           snippet: poi.poiData.informacionEn,
@@ -52,13 +77,7 @@ class POIListViewModel extends ChangeNotifier {
     );
   }
 
-  Future<void> fetchAllPOIs(BuildContext context) async {
-    final result = await WebService().fetchAllPOIs();
-    this.pois = result.map((item) => POIViewModel(poi: item)).toList();
-    notifyListeners();
-  }
-
-  onPoiTap(POIViewModel poi, BuildContext context) {
+  void onMarkerTap(BuildContext context, POIViewModel poi) {
     showModalBottomSheet(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -71,13 +90,6 @@ class POIListViewModel extends ChangeNotifier {
         return POICard(poi: poi);
       },
     );
-  }
-
-  Future<void> fetchPOITypes() async {
-    final result = await WebService().fetchPOITypes();
-    this.poiTypes =
-        result.map((item) => POITypeViewModel(poiType: item)).toList();
-    notifyListeners();
   }
 
   void goToCurrentLocation(Completer<GoogleMapController> gmController) async {
@@ -102,30 +114,23 @@ class POIListViewModel extends ChangeNotifier {
     ));
   }
 
-  void loadCustomPin() async {
-    pinLocationIcon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(size: Size(20.0, 20.0)),
-      'assets/custom_pin.png',
-    );
-  }
-
-  void selectTypeFilter(BuildContext context, String type) {
+  void selectTypeFilter(String type) {
     if (typeFilters.contains(type)) {
       typeFilters.remove(type);
     } else {
       typeFilters.add(type);
     }
 
-    updateMarkers(context);
+    updateMarkers();
     notifyListeners();
   }
 
-  void updateMarkers(BuildContext context) {
+  void updateMarkers() {
     markers.clear();
 
     pois.forEach((poi) {
       if (typeFilters.contains(poi.poiType.id)) {
-        addPoiToMarkers(context, poi);
+        addPoiToMarkers(poi);
       }
     });
   }

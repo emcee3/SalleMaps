@@ -48,7 +48,7 @@ class _ListScreen extends State<ListScreen> {
                   return POIListTile(
                     poi,
                     index,
-                    () => poiListViewModel.onPoiTap(poi, context),
+                    () => poiListViewModel.onMarkerTap(context, poi),
                   );
                 },
               ),

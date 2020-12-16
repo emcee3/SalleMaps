@@ -29,7 +29,7 @@ class _FiltersCardState extends State<FiltersCard> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: vm.poiTypes
-                    .map((typeVM) => _buildTypeOption(context, typeVM, vm))
+                    .map((typeVM) => _buildTypeOption(typeVM, vm))
                     .toList(),
               ),
             ),
@@ -39,13 +39,10 @@ class _FiltersCardState extends State<FiltersCard> {
     );
   }
 
-  Widget _buildTypeOption(
-      BuildContext context, POITypeViewModel type, POIListViewModel vm) {
+  Widget _buildTypeOption(POITypeViewModel type, POIListViewModel vm) {
     bool isSelected = vm.typeFilters.contains(type.id);
     return GestureDetector(
-      onTap: () {
-        vm.selectTypeFilter(context, type.id);
-      },
+      onTap: () => vm.selectTypeFilter(type.id),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

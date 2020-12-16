@@ -31,13 +31,14 @@ class _MapScreen extends State<MapScreen> {
   void initState() {
     super.initState();
     Provider.of<POIListViewModel>(context, listen: false).loadCustomPin();
-    Provider.of<POIListViewModel>(context, listen: false).fetchAllPOIs(context);
+    Provider.of<POIListViewModel>(context, listen: false).fetchAllPOIs();
     Provider.of<POIListViewModel>(context, listen: false).fetchPOITypes();
   }
 
   @override
   Widget build(BuildContext context) {
     final poiListViewModel = Provider.of<POIListViewModel>(context);
+    poiListViewModel.loadMapContext(context);
 
     return Scaffold(
       body: Stack(
