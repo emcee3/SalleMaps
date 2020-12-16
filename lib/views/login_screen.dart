@@ -1,8 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:salle_maps/services/services.dart';
 import 'package:salle_maps/views/register_screen.dart';
+
+import 'package:salle_maps/widgets/forgot_password_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key}) : super(key: key);
@@ -12,12 +16,17 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreen extends State<LoginScreen> {
-  AuthService auth = AuthService();
-
   final _formKey = GlobalKey<FormState>();
 
   var _emailCntlr = TextEditingController();
   var _passCntlr = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailCntlr.dispose();
+    _passCntlr.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +77,14 @@ class _LoginScreen extends State<LoginScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text('Forgot password?'),
+                        GestureDetector(
+                          child: Text('Forgot password?'),
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (_) => ForgotPasswordDialog());
+                          },
+                        ),
                         GestureDetector(
                           child: Text('Don\'t have an account?'),
                           onTap: () {
@@ -90,8 +106,9 @@ class _LoginScreen extends State<LoginScreen> {
                         color: Colors.black26,
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
-                            UserCredential userCredential = await auth.signIn(
-                                _emailCntlr.text, _passCntlr.text);
+                            UserCredential userCredential = await context
+                                .read<AuthService>()
+                                .signIn(_emailCntlr.text, _passCntlr.text);
                             if (userCredential != null) {
                               if (userCredential.user != null) {
                                 Navigator.pushReplacementNamed(
@@ -137,7 +154,7 @@ class _LoginScreen extends State<LoginScreen> {
                             borderRadius: BorderRadius.circular(40)),
                         color: Colors.white,
                         onPressed: () {
-                          auth.signInWithGoogle();
+                          context.read<AuthService>().signInWithGoogle();
                         },
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),

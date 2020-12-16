@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import '../utils/utils.dart';
 
@@ -17,8 +18,6 @@ class _RegisterScreen extends State<RegisterScreen> {
   var _emailCntlr = TextEditingController();
   var _passCntlr = TextEditingController();
   var _confirmPassCntlr = TextEditingController();
-
-  AuthService auth = AuthService();
 
   @override
   void dispose() {
@@ -92,9 +91,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                     padding: const EdgeInsets.only(top: 20),
                     child: GestureDetector(
                       child: Text('Already have an account?'),
-                      onTap: () {
-                        // Navigator.pop(context);
-                      },
+                      onTap: () => Navigator.pop(context),
                     ),
                   ),
                   Padding(
@@ -130,7 +127,8 @@ class _RegisterScreen extends State<RegisterScreen> {
   Future _trySignUp(BuildContext context) async {
     if (_formKey.currentState.validate()) {
       if (_passCntlr.text == _confirmPassCntlr.text) {
-        await auth
+        await context
+            .read<AuthService>()
             .signUp(_emailCntlr.text.trim(), _passCntlr.text.trim())
             .then((res) {
           switch (res) {

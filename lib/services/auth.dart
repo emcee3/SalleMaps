@@ -1,11 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
 import 'package:salle_maps/services/globals.dart';
 
 class AuthService {
+  final FirebaseAuth _auth;
+
+  AuthService(this._auth);
+
+  Stream<User> get authState => _auth.authStateChanges();
+
   Future<String> signUp(String email, String password) async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -24,8 +31,7 @@ class AuthService {
 
   Future<UserCredential> signIn(String email, String password) async {
     try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -60,8 +66,22 @@ class AuthService {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
+  Future<String> sendPasswordResetEmail(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      return Global.sendSuccess;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == Global.invalidEmailError) {
+        print('Invalid email.');
+      } else if (e.code == Global.userNotFoundError) {
+        print('No user found for that email.');
+      }
+      return e.code;
+    }
+  }
+
   /// Sign out
   Future<void> signOut() {
-    return FirebaseAuth.instance.signOut();
+    return _auth.signOut();
   }
 }
