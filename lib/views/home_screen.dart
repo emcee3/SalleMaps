@@ -8,7 +8,6 @@ import 'package:salle_maps/view_models/poi_list_view_model.dart';
 import 'package:salle_maps/view_models/poi_type_view_model.dart';
 
 import 'package:salle_maps/widgets/home_bottom_nav_bar.dart';
-import 'package:salle_maps/widgets/home_floating_action_button.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);

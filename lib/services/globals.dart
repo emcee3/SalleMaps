@@ -5,6 +5,8 @@ class Global {
   // WEB Service
   static const String BASE_URL =
       'https://shared.dribbalabs.com/salle/touristTrap';
+  // LogIn
+  static const String logInSuccess = 'Login Success!';
 
   // SignUp
   static const String signUpSuccess = 'success';

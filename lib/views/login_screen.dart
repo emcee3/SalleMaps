@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:salle_maps/services/services.dart';
+import 'package:salle_maps/views/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key}) : super(key: key);
@@ -80,7 +81,7 @@ class _LoginScreen extends State<LoginScreen> {
                         GestureDetector(
                           child: Text('Don\'t have an account?'),
                           onTap: () {
-                            Navigator.pushNamed(context, '/register');
+                            _navigateAndDisplaySelection(context);
                           },
                         ),
                       ],
@@ -144,7 +145,9 @@ class _LoginScreen extends State<LoginScreen> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40)),
                         color: Colors.white,
-                        onPressed: () {},
+                        onPressed: () {
+                          auth.signInWithGoogle();
+                        },
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                           child: Row(
@@ -173,5 +176,21 @@ class _LoginScreen extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  _navigateAndDisplaySelection(BuildContext context) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RegisterScreen()),
+    );
+    print("RESULT REGISTER: " + result.toString());
+    if (result == "success") {
+      ScaffoldMessenger.of(context)
+        ..removeCurrentSnackBar()
+        ..showSnackBar(SnackBar(
+          content: Text("$result"),
+          backgroundColor: Colors.green,
+        ));
+    }
   }
 }

@@ -44,7 +44,7 @@ class AuthService {
     }
   }
 
-/*  /// Sign in with Google
+  /// Sign in with Google
     //TODO: https://firebase.flutter.dev/docs/auth/social
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
@@ -60,8 +60,8 @@ class AuthService {
     );
 
     // Once signed in, return the UserCredential
-    return await _auth.signInWithCredential(credential);
-  }*/
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
 
   /// Sign out
   Future<void> signOut() {

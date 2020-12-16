@@ -21,6 +21,14 @@ class _RegisterScreen extends State<RegisterScreen> {
   AuthService auth = AuthService();
 
   @override
+  void dispose() {
+    _emailCntlr.dispose();
+    _passCntlr.dispose();
+    _confirmPassCntlr.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFF69ade4),
@@ -103,10 +111,10 @@ class _RegisterScreen extends State<RegisterScreen> {
                           if (_formKey.currentState.validate()) {
                             if (_passCntlr.text == _confirmPassCntlr.text) {
                               final res = await auth.signUp(
-                                  _emailCntlr.text, _passCntlr.text);
+                                  _emailCntlr.text.trim(), _passCntlr.text.trim());
                               switch (res) {
                                 case Global.signUpSuccess:
-                                  Navigator.pop(context);
+                                  Navigator.pop(context, "success");
                                   break;
                                 case Global.signUpErrorPassword:
                                   ScaffoldMessenger.of(context).showSnackBar(

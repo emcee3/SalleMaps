@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:salle_maps/services/services.dart';
 import 'package:salle_maps/views/login_screen.dart';
 import 'package:salle_maps/views/profile_screen.dart';
-import 'package:salle_maps/views/register_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'views/home_screen.dart';
@@ -47,7 +46,7 @@ class MyApp extends StatelessWidget {
       initialRoute: user == null ? '/login' : '/home',
       routes: {
         '/login': (context) => LoginScreen(),
-        '/register': (context) => RegisterScreen(),
+        //'/register': (context) => RegisterScreen(),
         '/home': (context) => HomeScreen(),
         '/profile': (context) => ProfileScreen(),
       },
