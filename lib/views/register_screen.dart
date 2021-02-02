@@ -109,7 +109,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                                   Navigator.pop(context);
                                   break;
                                 case Global.signUpErrorPassword:
-                                  ScaffoldMessenger.of(context).showSnackBar(
+                                  Scaffold.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Weak password."),
                                       backgroundColor: Colors.red,
@@ -117,7 +117,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                                   );
                                   break;
                                 case Global.signUpErrorEmail:
-                                  ScaffoldMessenger.of(context).showSnackBar(
+                                  Scaffold.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Email already in use."),
                                       backgroundColor: Colors.red,
@@ -125,7 +125,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                                   );
                                   break;
                                 case Global.signUpError:
-                                  ScaffoldMessenger.of(context).showSnackBar(
+                                  Scaffold.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Error signing up."),
                                       backgroundColor: Colors.red,
@@ -135,7 +135,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                               }
                             }
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
+                            Scaffold.of(context).showSnackBar(
                               SnackBar(
                                 content: Text('Passwords don\'t match.'),
                                 backgroundColor: Colors.red,

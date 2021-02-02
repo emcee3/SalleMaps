@@ -106,7 +106,7 @@ class _LoginScreen extends State<LoginScreen> {
                                     context, '/home');
                               }
                             } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
+                              Scaffold.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text("Email or password incorrect."),
                                   backgroundColor: Colors.red,
