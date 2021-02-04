@@ -35,21 +35,20 @@ class POISearch extends SearchDelegate<POIListViewModel> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return _findResults();
+    return _findResults(context);
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return _findResults();
+    return _findResults(context);
   }
 
-  Widget _findResults() {
+  Widget _findResults(BuildContext context) {
     final results = poiListVM.pois
         .where((poi) => poi.poiData.nombreEn.containsIgnoreCase(query))
         .toList();
 
     poiListVM.poisToShow = List.from(results);
-    // poiListVM.updatePoisToShow();
 
     if (results.isEmpty) {
       return Center(child: Text('No data!'));
@@ -58,13 +57,17 @@ class POISearch extends SearchDelegate<POIListViewModel> {
     return ListView(
       children: results
           .asMap()
-          .map((i, poi) => MapEntry(i, POIListTile(poi, i, _onTapResult)))
+          .map((i, poi) => MapEntry(
+                i,
+                POIListTile(poi, i, () => _onTapResult(context, poi)),
+              ))
           .values
           .toList(),
     );
   }
 
-  void _onTapResult() {
-    print('onTapResult: tile tap');
+  void _onTapResult(BuildContext context, POIViewModel poi) {
+    poiListVM.poisToShow = [poi];
+    close(context, poiListVM);
   }
 }

@@ -17,9 +17,13 @@ class POIListTile extends StatelessWidget {
       ),
       tileColor: Colors.white,
       title: Text(poi.poi.data.nombreEn,
+          overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.headline5),
-      subtitle: Text(poi.poi.data.informacionEn,
-          style: Theme.of(context).textTheme.subtitle1),
+      subtitle: Text(
+        poi.poi.data.informacionEn,
+        overflow: TextOverflow.ellipsis,
+        style: Theme.of(context).textTheme.subtitle1,
+      ),
       onTap: () {
         onTapPOI();
       },
