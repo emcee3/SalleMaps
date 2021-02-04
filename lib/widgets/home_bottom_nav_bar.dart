@@ -23,7 +23,6 @@ class _HomeBottomNavBar extends State<HomeBottomNavBar> {
   Widget build(BuildContext context) {
     List<Widget> _navigationButtons =
         List.generate(2, (index) => _buildNavigationButton(index));
-    _navigationButtons.insert(1, _buildSeparator());
 
     return BottomAppBar(
       color: Color(0xFF69ade4),
@@ -35,22 +34,6 @@ class _HomeBottomNavBar extends State<HomeBottomNavBar> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: _navigationButtons,
         ),
-      ),
-    );
-  }
-
-  Widget _buildSeparator() {
-    return SizedBox(
-      height: 60.0,
-      width: 60.0,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: 24.0,
-          ),
-        ],
       ),
     );
   }

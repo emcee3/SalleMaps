@@ -21,105 +21,108 @@ class _ProfileScreen extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffF5F5F6),
-      body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 200,
-              child: Stack(
-                children: [
-                  GestureDetector(
-                    child: Container(
-                      color: _bgColor,
-                    ),
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            titlePadding: const EdgeInsets.all(0.0),
-                            contentPadding: const EdgeInsets.all(0.0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                            content: SingleChildScrollView(
-                              child: SlidePicker(
-                                pickerColor: _bgColor,
-                                onColorChanged: changeColor,
-                                paletteType: PaletteType.rgb,
-                                enableAlpha: false,
-                                displayThumbColor: true,
-                                showLabel: false,
-                                showIndicator: true,
-                                indicatorBorderRadius:
-                                    const BorderRadius.vertical(
-                                  top: const Radius.circular(25.0),
-                                ),
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+      ),
+      body: Column(
+        children: [
+          SizedBox(
+            height: 200,
+            child: Stack(
+              children: [
+                GestureDetector(
+                  child: Container(
+                    color: _bgColor,
+                  ),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          titlePadding: const EdgeInsets.all(0.0),
+                          contentPadding: const EdgeInsets.all(0.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                          content: SingleChildScrollView(
+                            child: SlidePicker(
+                              pickerColor: _bgColor,
+                              onColorChanged: changeColor,
+                              paletteType: PaletteType.rgb,
+                              enableAlpha: false,
+                              displayThumbColor: true,
+                              showLabel: false,
+                              showIndicator: true,
+                              indicatorBorderRadius:
+                                  const BorderRadius.vertical(
+                                top: const Radius.circular(25.0),
                               ),
                             ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                  Center(
-                    child: CircleAvatar(
-                      radius: 60,
-                      backgroundImage: AssetImage(
-                        'assets/default_user.png',
-                      ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+                Center(
+                  child: CircleAvatar(
+                    radius: 60,
+                    backgroundImage: AssetImage(
+                      'assets/default_user.png',
                     ),
                   ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListTile(
+              title: Text(
+                'Email',
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              subtitle: Text(
+                FirebaseAuth.instance.currentUser.email,
+                style: Theme.of(context).textTheme.headline6,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListTile(
+              title:
+                  Text('Theme', style: Theme.of(context).textTheme.headline5),
+              subtitle: Row(
+                children: [
+                  themeListTile(),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListTile(
-                title: Text(
-                  'Email',
-                  style: Theme.of(context).textTheme.headline5,
-                ),
-                subtitle: Text(
-                  FirebaseAuth.instance.currentUser.email,
-                  style: Theme.of(context).textTheme.headline6,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: RaisedButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(8.0),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListTile(
-                title:
-                    Text('Theme', style: Theme.of(context).textTheme.headline5),
-                subtitle: Row(
-                  children: [
-                    themeListTile(),
-                  ],
-                ),
+              child: Text(
+                'logout',
+                style: Theme.of(context).textTheme.headline6,
               ),
+              color: Colors.red,
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil('/login', (route) => false);
+              },
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: RaisedButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(8.0),
-                  ),
-                ),
-                child: Text(
-                  'logout',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                color: Colors.red,
-                onPressed: () async {
-                  await FirebaseAuth.instance.signOut();
-                  Navigator.of(context)
-                      .pushNamedAndRemoveUntil('/login', (route) => false);
-                },
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

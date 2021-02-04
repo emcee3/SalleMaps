@@ -60,8 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Image.asset('assets/la_salle_maps_logo.png', width: 200.0),
         centerTitle: true,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: HomeFloatingActionButton(),
       bottomNavigationBar: HomeBottomNavBar(onTabSelected: _selectTabIndex),
       // * IndexedStack prevents from loading the map over and over again
       body: IndexedStack(
