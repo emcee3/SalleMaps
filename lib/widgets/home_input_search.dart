@@ -31,8 +31,8 @@ class _HomeInputSearch extends State<HomeInputSearch> {
                   focusNode: AlwaysDisabledFocusNode(),
                   onTap: () => showSearch(
                     context: context,
-                    delegate: POISearch(poiListViewModel.pois),
-                  ),
+                    delegate: POISearch(poiListViewModel),
+                  ).then((value) => value.updatePoisToShow()),
                   decoration: InputDecoration(
                     hintText: 'Search point of interest...',
                     filled: true,

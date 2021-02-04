@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:salle_maps/utils/extension_methods.dart';
-
+import 'package:salle_maps/view_models/poi_list_view_model.dart';
 import 'package:salle_maps/view_models/poi_view_model.dart';
 import 'package:salle_maps/widgets/poi_list_tile.dart';
 
-class POISearch extends SearchDelegate<POIViewModel> {
-  final List<POIViewModel> pois;
+class POISearch extends SearchDelegate<POIListViewModel> {
+  POIListViewModel poiListVM;
 
-  POISearch(this.pois);
+  POISearch(this.poiListVM);
 
   @override
   TextInputAction get textInputAction => TextInputAction.search;
@@ -28,7 +29,7 @@ class POISearch extends SearchDelegate<POIViewModel> {
   Widget buildLeading(BuildContext context) {
     return IconButton(
       icon: Icon(Icons.arrow_back),
-      onPressed: () => close(context, null),
+      onPressed: () => close(context, poiListVM),
     );
   }
 
@@ -43,9 +44,12 @@ class POISearch extends SearchDelegate<POIViewModel> {
   }
 
   Widget _findResults() {
-    final results = pois
+    final results = poiListVM.pois
         .where((poi) => poi.poiData.nombreEn.containsIgnoreCase(query))
         .toList();
+
+    poiListVM.poisToShow = List.from(results);
+    // poiListVM.updatePoisToShow();
 
     if (results.isEmpty) {
       return Center(child: Text('No data!'));

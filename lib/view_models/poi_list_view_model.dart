@@ -14,6 +14,7 @@ class POIListViewModel extends ChangeNotifier {
   BitmapDescriptor pinLocationIcon;
 
   List<POIViewModel> pois = List<POIViewModel>();
+  List<POIViewModel> poisToShow = List<POIViewModel>();
   List<POITypeViewModel> poiTypes = List<POITypeViewModel>();
 
   Set<Marker> markers = {};
@@ -38,6 +39,7 @@ class POIListViewModel extends ChangeNotifier {
   Future<void> fetchAllPOIs() async {
     final result = await WebService().fetchAllPOIs();
     this.pois = result.map((item) => POIViewModel(poi: item)).toList();
+    this.poisToShow = List.from(this.pois);
     notifyListeners();
   }
 
@@ -121,17 +123,32 @@ class POIListViewModel extends ChangeNotifier {
       typeFilters.add(type);
     }
 
-    updateMarkers();
+    updateMarkers(false, poisToShow: this.pois);
     notifyListeners();
   }
 
-  void updateMarkers() {
+  void updatePoisToShow() {
+    poisToShow.forEach((poi) {
+      print(poi.poiData.nombreEs);
+    });
+    updateMarkers(true, poisToShow: poisToShow);
+    notifyListeners();
+  }
+
+  void updateMarkers(bool ignoreFilters, {List<POIViewModel> poisToShow}) {
+    final result = poisToShow ?? this.pois;
     markers.clear();
 
-    pois.forEach((poi) {
-      if (typeFilters.contains(poi.poiType.id)) {
+    if (!ignoreFilters) {
+      result.forEach((poi) {
+        if (typeFilters.contains(poi.poiType.id)) {
+          addPoiToMarkers(poi);
+        }
+      });
+    } else {
+      result.forEach((poi) {
         addPoiToMarkers(poi);
-      }
-    });
+      });
+    }
   }
 }
