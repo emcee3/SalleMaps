@@ -55,7 +55,7 @@ class _MapScreen extends State<MapScreen> {
               googleMapsController.complete(controller);
             },
           ),
-          HomeInputSearch(showOrderOptions: false),
+          HomeInputSearch(),
         ],
       ),
       floatingActionButton: _buildFABs(poiListViewModel),

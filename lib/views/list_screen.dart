@@ -24,7 +24,7 @@ class _ListScreen extends State<ListScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          HomeInputSearch(showOrderOptions: true),
+          HomeInputSearch(),
           Divider(color: Colors.grey, thickness: 1),
           Padding(
             padding: const EdgeInsets.only(left: 8.0),

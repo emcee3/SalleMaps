@@ -4,9 +4,8 @@ import 'package:salle_maps/view_models/poi_list_view_model.dart';
 import 'package:salle_maps/views/poi_search.dart';
 
 class HomeInputSearch extends StatefulWidget {
-  final bool showOrderOptions;
+  HomeInputSearch({Key key}) : super(key: key);
 
-  HomeInputSearch({Key key, @required this.showOrderOptions}) : super(key: key);
   @override
   _HomeInputSearch createState() => new _HomeInputSearch();
 }
@@ -59,48 +58,8 @@ class _HomeInputSearch extends State<HomeInputSearch> {
               ),
             ],
           ),
-          if (widget.showOrderOptions) _buildOrderOptions(),
         ],
       ),
-    );
-  }
-
-  Widget _buildOrderOptions() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Text(
-          'Order by: ',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        FilterChip(
-          label: Text('Distance'),
-          selected: false,
-          onSelected: (bool selected) {},
-          backgroundColor: Colors.white,
-          selectedColor: Color(0xFF69ade4),
-          elevation: 2.0,
-        ),
-        FilterChip(
-          label: Text('Alphabetic'),
-          selected: true,
-          onSelected: (bool selected) {},
-          backgroundColor: Colors.white,
-          selectedColor: Color(0xFF69ade4),
-          elevation: 2.0,
-        ),
-        FilterChip(
-          label: Text('Type'),
-          selected: false,
-          onSelected: (bool selected) {},
-          backgroundColor: Colors.white,
-          selectedColor: Color(0xFF69ade4),
-          elevation: 2.0,
-        ),
-      ],
     );
   }
 }
