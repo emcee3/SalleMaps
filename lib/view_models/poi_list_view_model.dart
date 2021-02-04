@@ -12,11 +12,17 @@ import 'poi_type_view_model.dart';
 
 class POIListViewModel extends ChangeNotifier {
   BitmapDescriptor pinLocationIcon;
+
   List<POIViewModel> pois = List<POIViewModel>();
+  List<POIViewModel> poisToShow = List<POIViewModel>();
   List<POITypeViewModel> poiTypes = List<POITypeViewModel>();
+
   Set<Marker> markers = {};
 
+  Set<String> typeFilters = {};
+
   bool _isDisposed = false;
+  BuildContext mapContext;
 
   @override
   void dispose() {
@@ -30,32 +36,50 @@ class POIListViewModel extends ChangeNotifier {
     if (!_isDisposed) super.notifyListeners();
   }
 
-  Future<void> fetchAllPOIs(BuildContext context) async {
+  Future<void> fetchAllPOIs() async {
     final result = await WebService().fetchAllPOIs();
     this.pois = result.map((item) => POIViewModel(poi: item)).toList();
-
-    this.pois.forEach((poi) {
-      markers.add(
-        Marker(
-          markerId: MarkerId(poi.poiData.id),
-          icon: pinLocationIcon,
-          position: new LatLng(
-            double.parse(poi.poiData.latitud),
-            double.parse(poi.poiData.longitud),
-          ),
-          onTap: () => onPoiTap(poi, context),
-          infoWindow: InfoWindow(
-            title: poi.poiData.nombreEn,
-            snippet: poi.poiData.informacionEn,
-          ),
-        ),
-      );
-    });
+    this.poisToShow = List.from(this.pois);
     notifyListeners();
   }
 
-  onPoiTap(POIViewModel poi, BuildContext context) {
-    print('onPoiTap');
+  Future<void> fetchPOITypes() async {
+    final result = await WebService().fetchPOITypes();
+    this.poiTypes =
+        result.map((item) => POITypeViewModel(poiType: item)).toList();
+    notifyListeners();
+  }
+
+  void loadMapContext(BuildContext context) {
+    mapContext = context;
+  }
+
+  void loadCustomPin() async {
+    pinLocationIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(size: Size(20.0, 20.0)),
+      'assets/custom_pin.png',
+    );
+  }
+
+  void addPoiToMarkers(POIViewModel poi) {
+    markers.add(
+      Marker(
+        markerId: MarkerId(poi.poiData.id),
+        icon: pinLocationIcon,
+        position: new LatLng(
+          double.parse(poi.poiData.latitud),
+          double.parse(poi.poiData.longitud),
+        ),
+        onTap: () => onMarkerTap(mapContext, poi),
+        infoWindow: InfoWindow(
+          title: poi.poiData.nombreEn,
+          snippet: poi.poiData.informacionEn,
+        ),
+      ),
+    );
+  }
+
+  void onMarkerTap(BuildContext context, POIViewModel poi) {
     showModalBottomSheet(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -68,13 +92,6 @@ class POIListViewModel extends ChangeNotifier {
         return POICard(poi: poi);
       },
     );
-  }
-
-  Future<void> fetchPOITypes() async {
-    final result = await WebService().fetchPOITypes();
-    this.poiTypes =
-        result.map((item) => POITypeViewModel(poiType: item)).toList();
-    notifyListeners();
   }
 
   void goToCurrentLocation(Completer<GoogleMapController> gmController) async {
@@ -99,10 +116,39 @@ class POIListViewModel extends ChangeNotifier {
     ));
   }
 
-  void loadCustomPin() async {
-    pinLocationIcon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(size: Size(20.0, 20.0)),
-      'assets/custom_pin.png',
-    );
+  void selectTypeFilter(String type) {
+    if (typeFilters.contains(type)) {
+      typeFilters.remove(type);
+    } else {
+      typeFilters.add(type);
+    }
+
+    updateMarkers(false, poisToShow: this.pois);
+    notifyListeners();
+  }
+
+  void updatePoisToShow() {
+    poisToShow.forEach((poi) {
+      print(poi.poiData.nombreEs);
+    });
+    updateMarkers(true, poisToShow: poisToShow);
+    notifyListeners();
+  }
+
+  void updateMarkers(bool ignoreFilters, {List<POIViewModel> poisToShow}) {
+    final result = poisToShow ?? this.pois;
+    markers.clear();
+
+    if (!ignoreFilters) {
+      result.forEach((poi) {
+        if (typeFilters.contains(poi.poiType.id)) {
+          addPoiToMarkers(poi);
+        }
+      });
+    } else {
+      result.forEach((poi) {
+        addPoiToMarkers(poi);
+      });
+    }
   }
 }

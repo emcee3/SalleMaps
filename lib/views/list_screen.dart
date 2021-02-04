@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:salle_maps/view_models/poi_list_view_model.dart';
+
+import 'package:salle_maps/widgets/home_input_search.dart';
+import 'package:salle_maps/widgets/poi_list_tile.dart';
 
 class ListScreen extends StatefulWidget {
   ListScreen({Key key}) : super(key: key);
@@ -10,12 +16,45 @@ class ListScreen extends StatefulWidget {
 class _ListScreen extends State<ListScreen> {
   @override
   Widget build(BuildContext context) {
+    final poiListViewModel = Provider.of<POIListViewModel>(context);
+
     return Scaffold(
-      body: Center(
-        child: Text(
-          'This is not a list',
-          style: Theme.of(context).textTheme.headline1,
-        ),
+      backgroundColor: Colors.grey[50],
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          HomeInputSearch(),
+          Divider(color: Colors.grey, thickness: 1),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Text(
+              'Points of interest found:',
+              style: TextStyle(
+                fontSize: 24.0,
+                color: Colors.grey[800],
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Expanded(
+            child: MediaQuery.removePadding(
+              removeTop: true,
+              context: context,
+              child: ListView.builder(
+                itemCount: poiListViewModel.poisToShow.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final poi = poiListViewModel.poisToShow[index];
+                  return POIListTile(
+                    poi,
+                    index,
+                    () => poiListViewModel.onMarkerTap(context, poi),
+                  );
+                },
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

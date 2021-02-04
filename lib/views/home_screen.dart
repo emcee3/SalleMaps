@@ -17,24 +17,37 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<Widget> _screens = [
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider<POIListViewModel>(
-            create: (_) => POIListViewModel()),
-        ChangeNotifierProvider<POITypeViewModel>(
-            create: (_) => POITypeViewModel()),
-      ],
-      child: MapScreen(),
-    ),
-    ListScreen(),
-  ];
+  final POIListViewModel _poiListViewModel = POIListViewModel();
+  final POITypeViewModel _poiTypeViewModel = POITypeViewModel();
+
+  List<Widget> _screens;
   int _currentTabIndex = 0;
 
   void _selectTabIndex(int index) {
     setState(() {
       _currentTabIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _screens = [
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(value: _poiListViewModel),
+          ChangeNotifierProvider.value(value: _poiTypeViewModel),
+        ],
+        child: MapScreen(),
+      ),
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(value: _poiListViewModel),
+          ChangeNotifierProvider.value(value: _poiTypeViewModel),
+        ],
+        child: ListScreen(),
+      ),
+    ];
   }
 
   @override

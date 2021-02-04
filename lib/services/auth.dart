@@ -47,7 +47,6 @@ class AuthService {
   }
 
   /// Sign in with Google
-  //TODO: https://firebase.flutter.dev/docs/auth/social
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();

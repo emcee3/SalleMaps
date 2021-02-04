@@ -12,7 +12,6 @@ dependencies:
   flutter:
     sdk: flutter
   toggle_switch: "^0.1.8"
-  expandable_bottom_sheet: ^0.2.1+1
   google_maps_flutter: ^1.0.6
   location: ^3.0.0
   provider: ^4.3.2+3
