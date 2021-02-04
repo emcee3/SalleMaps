@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'package:salle_maps/utils/extension_methods.dart';
 import 'package:salle_maps/view_models/poi_list_view_model.dart';
